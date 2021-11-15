@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'login'])->name('home');
 
-Auth::routes();
+Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/notifications/add', [App\Http\Controllers\NotificationController::class, 'create']);
+Route::post('/notifications/add', [App\Http\Controllers\NotificationController::class, 'create']);
+Route::match(['get', 'post'],'/notifications/added', [App\Http\Controllers\NotificationController::class, 'store']);
+Route::post('/notifications/edit/{id}', [App\Http\Controllers\NotificationController::class, 'edit']);
+Route::get('/notifications/edit/{id}', [App\Http\Controllers\NotificationController::class, 'edit']);
+Route::match(['get', 'post'],'/notifications/edited', [App\Http\Controllers\NotificationController::class, 'update']);
+Route::match(['get', 'post'], '/notifications/delete', [App\Http\Controllers\NotificationController::class, 'destroy']);
+
+Route::get('/lang/{locale}', LanguageController::class);

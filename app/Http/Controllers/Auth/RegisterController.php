@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Name;
+use App\Models\Company;
+use App\Models\Role;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+define('ENABLED_NOTIFICATIONS', 1);
+define('PRIVATE_USER', "1");
 
 class RegisterController extends Controller
 {
@@ -21,7 +26,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
     use RegistersUsers;
 
     /**
@@ -64,10 +68,38 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        if ($data['userType'] == PRIVATE_USER)
+        {
+           
+            
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'name_id' => Name::create([
+                                'name' => $data['PersonName'], 
+                                'surname' => $data['PersonSurname'], 
+                                'title' => $data['Title'],                 
+                                ])->id,
+                'email_notifications' => ENABLED_NOTIFICATIONS,
+                'role_id' => Role::whereName('Private participant')->firstOrFail()->id,
+             ]);
+        }
+        
+        else{
+            
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'company_id' => Company::create([
+                                    'name' => $data['CompanyName'], 
+                                    'country' => $data['CompanyCountry'],  
+                                    ])->id,
+                'email_notifications' => ENABLED_NOTIFICATIONS,
+                'role_id' => Role::whereName('Commercial participant')->firstOrFail()->id,
+            ]);
+        }
+        
     }
 }
