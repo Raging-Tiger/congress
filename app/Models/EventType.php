@@ -10,6 +10,7 @@ class EventType extends Model
     use HasFactory;
     
     public $timestamps = false;
+    protected $table = 'event_types';
     
     public function events(){
         return $this->hasMany(Event::class);

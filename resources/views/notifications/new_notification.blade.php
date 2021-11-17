@@ -36,7 +36,7 @@
                                 </div>
                             @endif
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                            {{ Form::label('lang', __('admin_messages.lang'), ['class' => 'control-label']) }}
                            {{ Form::select('lang', $languages, ['class' => 'form-control', 'placeholder' => 'Select visibility type'])}}
                             @if ($errors->has('lang'))

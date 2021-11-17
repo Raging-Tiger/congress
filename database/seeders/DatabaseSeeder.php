@@ -36,5 +36,9 @@ class DatabaseSeeder extends Seeder
         
         \App\Models\Language::create(array('name' => 'English', 'language_code' => 'en'));
         \App\Models\Language::create(array('name' => 'Russian', 'language_code' => 'ru'));
+        
+        \App\Models\EventType::create(array('name' => 'Conference'));
+        \App\Models\EventType::create(array('name' => 'Commercial exhibition'));
+        \App\Models\EventType::create(array('name' => 'Conference & commercial exhibition'));
     }
 }

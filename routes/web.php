@@ -32,3 +32,14 @@ Route::match(['get', 'post'],'/notifications/edited', [App\Http\Controllers\Noti
 Route::match(['get', 'post'], '/notifications/delete', [App\Http\Controllers\NotificationController::class, 'destroy']);
 
 Route::get('/lang/{locale}', LanguageController::class);
+
+Route::get('/events/create', [App\Http\Controllers\EventController::class, 'create']);
+Route::post('/events/create', [App\Http\Controllers\EventController::class, 'create']);
+Route::match(['get', 'post'],'/events/added', [App\Http\Controllers\EventController::class, 'store']);
+Route::get('/events/manage', [App\Http\Controllers\EventController::class, 'index']);
+
+
+Route::match(['get', 'post'],'/billing_plans', [App\Http\Controllers\BillingPlanController::class, 'index']);
+Route::get('/billing_plans/create', [App\Http\Controllers\BillingPlanController::class, 'create']);
+Route::post('/billing_plans/create', [App\Http\Controllers\BillingPlanController::class, 'create']);
+Route::match(['get', 'post'],'/billing_plans/added', [App\Http\Controllers\BillingPlanController::class, 'store']);
