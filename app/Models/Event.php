@@ -25,7 +25,7 @@ class Event extends Model
     
     
     public function billingPlans(){
-        return $this->belongsTo(BillingPlan::class);
+        return $this->belongsTo(BillingPlan::class, 'billing_plan_id');
     }
     
     public function userEvents(){

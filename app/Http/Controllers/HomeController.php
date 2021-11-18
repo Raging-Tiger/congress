@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\Language;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 
 class HomeController extends Controller
@@ -39,7 +41,7 @@ class HomeController extends Controller
             
             $n = Notification::where('language_id', $lang)->orderBy('id', 'desc')->paginate(5);
             $p = Notification::where('language_id', $lang)->where('notification_type_id',1)->orderBy('id', 'desc')->paginate(5);
-            
+                      
         return view('general/index', ['privates' => $n, 'publics' => $p, 'lang' => $lang]);
 
     }

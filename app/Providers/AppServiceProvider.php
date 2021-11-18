@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
+use App\Models\Event;
+use Carbon\Carbon;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +30,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
+        
+        $current_events = Event::whereDate('end_date', '>=', Carbon::now())->get();
+        View::share('current_events', $current_events);
+        
     }
 }

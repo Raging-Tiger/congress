@@ -6,14 +6,15 @@ use App\Models\EventType;
 use App\Models\BillingPlan;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 define('ALL_EVENTS', 3);
 
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of all events to users.
      *
-     * @return \Illuminate\Http\Response
+     * @return corresponing view.
      */
     public function index()
     {
@@ -21,11 +22,23 @@ class EventController extends Controller
         return view('events/events', ['events' => $events]);
 
     }
+    
+    /**
+     * Display a listing of all events to admin.
+     *
+     * @return corresponing view
+     */
+    public function admin_index()
+    {
+        $events = Event::orderBy('id', 'desc')->paginate(5);
+        return view('events/admin_events', ['events' => $events]);
+
+    }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new event to admin.
      *
-     * @return \Illuminate\Http\Response
+     * @return corresponing view.
      */
     public function create()
     {
@@ -38,10 +51,10 @@ class EventController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created event in the DB.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  $request from the form.
+     * @return redirect to the list of all events via EventController@admin_index.
      */
     public function store(Request $request)
     {
@@ -56,27 +69,56 @@ class EventController extends Controller
             $event_id = $request->selected_event_type[0];
         }
         
+        /* Transforming dates from the beginning of the day (00:00) to the end of the day (23:59) */
+        $last_date = Carbon::createFromFormat('Y-m-d', $request->end_date)->endOfDay()->toDateTimeString();
+        $registration_till = Carbon::createFromFormat('Y-m-d', $request->registration_till)->endOfDay()->toDateTimeString();
+
         Event::create([
                 'name' => $request->event_name,
                 'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'registration_until' => $request->registration_till,
+                'end_date' => $last_date,
+                'registration_until' => $registration_till,
                 'event_type_id' => $event_id,
                 'billing_plan_id' => $request->billing_plan,
             ]);
         
-        return redirect()->action('App\Http\Controllers\EventController@index');
+        return redirect()->action('App\Http\Controllers\EventController@admin_index');
     }
 
+    /**
+     * Separately displays the selected event.
+     *
+     * @param  int  $id - corresponds to the database event id entry.
+     * @return corresponing view.
+     */
+    public function show($id)
+    {
+        $event = Event::where('id', '=', $id)->first();
+        return view('events/event', ['event' => $event]);
+    }
+    
+    
+    /**
+     * Display the form for registration for the selected event.
+     *
+     * @param  int  $id - corresponds to the database event id entry.
+     * @return corresponing view.
+     */
+    public function register($id)
+    {
+        $event = Event::where('id', '=', $id)->first();
+        return view('events/event_registration', ['event' => $event]);
+    }
+    
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function storeRegistration(Request $request)
     {
-        //
+
     }
 
     /**

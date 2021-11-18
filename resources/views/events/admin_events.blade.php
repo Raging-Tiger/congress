@@ -7,7 +7,7 @@
         <div class="col-md-12">       
                 @foreach($events as $event)
                     <div class="card">
-                            <h4 class="list-group-item list-group-item-primary"><a class="nav-link" href={{"/events/".$event->id}}>{{$event->name}}</a></h4>
+                            <h4 class="list-group-item list-group-item-primary">{{$event->name}}</h4>
 
                                 {{$event->eventTypes->name}}
                                 

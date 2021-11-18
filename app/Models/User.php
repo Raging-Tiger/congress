@@ -88,4 +88,12 @@ class User extends Authenticatable
     public function isBlocked() {
         return ($this->role_id == 5);
     } 
+    
+    public function isPrivate() {
+        return ($this->role_id == 2);
+    } 
+    
+    public function isCommercial() {
+        return ($this->role_id == 3);
+    } 
 }
