@@ -39,7 +39,7 @@
                         @if ( !Auth::guest() && !Auth::user()->isBlocked() )
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="/events">{{ __('user_messages.events') }}</a>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu">                       
                                         <a class="nav-link" href="/events">{{ __('user_messages.all_events') }}</a>
                                         
                                         {{-- Output each current event, that is not finished --}}
@@ -48,7 +48,9 @@
                                             <a class="nav-link" href={{"/events/".$current_event->id}}>{{ $current_event->name }}</a>
                                         @endforeach
                                     </div>
+                            
                         </li>
+                        <li><a class="nav-link" href="/bills">{{ __('user_messages.bills') }}</a></li>
 
                         @endif
                         
@@ -66,6 +68,7 @@
                                         <a class="nav-link" href="/events/manage">{{ __('admin_messages.manage_events') }}</a>
                                         <a class="nav-link" href="/billing_plans/create">{{ __('admin_messages.create_billing_plan') }}</a>
                                         <a class="nav-link" href="/billing_plans">{{ __('admin_messages.manage_billing_plans') }}</a>
+                                        <a class="nav-link" href="/bills/manage">{{ __('admin_messages.manage_bills') }}</a>
                                     </div>
                             </li>
                     @endif

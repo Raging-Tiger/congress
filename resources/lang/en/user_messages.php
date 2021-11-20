@@ -20,7 +20,10 @@ return [
     'cost_per_article' => 'Cost per 1 article',
     'cost_per_participation' => 'Participation fees',
     'cost_per_material' => 'Cost per 1 commercial material',
-    'register' => 'Register'
+    'register' => 'Register',
+    'already_registred' => 'You are already registred for the event',
+    'bills' => 'Bills',
+    
 ];
 
 

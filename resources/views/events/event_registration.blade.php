@@ -8,18 +8,18 @@
                     <div class="card">
                         <h4 class="list-group-item list-group-item-primary">{{$event->name}}</h4>
                         <div class="card-body">
-                            {{ Form::open(['action' => ['App\Http\Controllers\EventController@storeRegistration', $event->id ] , 'onchange'=>"myFunction()"]) }}  
+                            {{ Form::open(['action' => ['App\Http\Controllers\EventController@storeRegistration', $event->id ] , 'onchange'=>"calculate()"]) }}  
                                 <div class="form-group">  
                                     @if(Auth::user()->isPrivate())
                                         {{ Form::label('selected_event_type', __('user_messages.cost_per_participation').': '.$event->billingPlans->cost_per_participation.' EUR ' ) }}
-                                        {{ Form::checkbox('selected[]', $event->billingPlans->cost_per_participation, false, ['class' => 'approved']) }}
+                                        {{ Form::checkbox('cost_per_participation', $event->billingPlans->cost_per_participation, false, ['class' => 'approved']) }}
                                         <br>
                                         {{ Form::label('selected_event_type', __('user_messages.cost_per_article').': '.$event->billingPlans->cost_per_article.' EUR ') }}
-                                        {{ Form::checkbox('selected[]', $event->billingPlans->cost_per_article, false, ['class' => 'approved']) }}
+                                        {{ Form::checkbox('cost_per_article', $event->billingPlans->cost_per_article, false, ['class' => 'approved']) }}
                                         <br>
                                     @elseif(Auth::user()->isCommercial())
                                         {{ Form::label('selected_event_type', __('user_messages.cost_per_material').': '.$event->billingPlans->cost_per_material.' EUR ' ) }}
-                                        {{ Form::checkbox('selected[]', $event->billingPlans->cost_per_material, false, ['class' => 'approved']) }}
+                                        {{ Form::checkbox('cost_per_material', $event->billingPlans->cost_per_material, false, ['class' => 'approved']) }}
                                     @endif
                                 </div>  
                                 <div class="form-group">  
@@ -38,7 +38,7 @@
      </div>
 </div>
 <script type="application/javascript">
-    function myFunction() {
+    function calculate() {
         
         
         totalText = document.getElementById('Total').textContent;

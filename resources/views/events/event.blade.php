@@ -10,12 +10,13 @@
                         <div class="card-body">
                            
                             <div class="float-right">
-                                @if($event->registration_until >= Carbon\Carbon::now())
+                                @if($event->registration_until >= Carbon\Carbon::now() && !Auth::user()->isRegistred($id))
                                 
                                     {{ Form::open(['action' => ['App\Http\Controllers\EventController@register', $event->id]]) }}
                                         {{ Form::submit(__('user_messages.register_on_event'), ['class' => 'btn btn-primary']) }}
                                     {{ Form::close() }}
-                                
+                                @elseif(Auth::user()->isRegistred($id))
+                                    <p>{{__('user_messages.already_registred')}}</p>
                                 @elseif($event->end_date <= Carbon\Carbon::now())
                                     <p>{{__('user_messages.event_ended')}}</p>
                                 @else

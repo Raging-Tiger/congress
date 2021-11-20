@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\EventType;
 use App\Models\BillingPlan;
 use App\Models\Event;
+use App\Models\UserEvent;
+use App\Models\Bill;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Storage;
 define('ALL_EVENTS', 3);
+define('BILL_STATUS_SENT', 1);
 
 class EventController extends Controller
 {
@@ -81,6 +85,10 @@ class EventController extends Controller
                 'event_type_id' => $event_id,
                 'billing_plan_id' => $request->billing_plan,
             ]);
+        /* Creating folder for storing payment confirmation uploads */
+        $folder_name = str_replace(' ', '_', strtolower($request->event_name));
+        $path = '/public/payments/' . $folder_name;
+        Storage::makeDirectory($path);
         
         return redirect()->action('App\Http\Controllers\EventController@admin_index');
     }
@@ -94,7 +102,8 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::where('id', '=', $id)->first();
-        return view('events/event', ['event' => $event]);
+        return view('events/event', ['event' => $event,
+                                     'id' => $id]);
     }
     
     
@@ -111,14 +120,40 @@ class EventController extends Controller
     }
     
     /**
-     * Display the specified resource.
+     * Store a user registration for specific event in the DB..
      *
-     * @param  int  $id
+     * @param  $request from the form, int  $id - int  $id - corresponds to the database event id entry.
      * @return \Illuminate\Http\Response
      */
-    public function storeRegistration(Request $request)
+    public function storeRegistration(Request $request, $id)
     {
-
+        UserEvent::create([
+                'user_id' => auth()->user()->id,
+                'event_id' => $id,
+            ]);
+        
+        /* Bill creation upon registration for the event - for private user */
+        if($request->has('cost_per_participation') || $request->has('cost_per_article')) {
+            
+            Bill::create([
+                'total_cost_per_articles' => $request->cost_per_article,
+                'total_cost_per_participation' => $request->cost_per_participation,
+                'user_id' => auth()->user()->id,
+                'event_id' => $id,
+                'bill_status_id' => BILL_STATUS_SENT,
+            ]);
+        } 
+        
+        /* Bill creation upon registration for the event - for commercial user */
+        else {
+            Bill::create([
+                'total_cost_per_materials' => $request->cost_per_material,
+                'user_id' => auth()->user()->id,
+                'event_id' => $id,
+                'bill_status_id' => BILL_STATUS_SENT,
+            ]);
+        }
+        return redirect()->action('App\Http\Controllers\BillController@index');
     }
 
     /**

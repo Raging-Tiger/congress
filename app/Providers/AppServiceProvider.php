@@ -30,9 +30,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
+        if(Schema::hasTable('events'))
+        {
+           $current_events = Event::whereDate('end_date', '>=', Carbon::now())->get();
+            View::share('current_events', $current_events); 
+        }
         
-        $current_events = Event::whereDate('end_date', '>=', Carbon::now())->get();
-        View::share('current_events', $current_events);
         
     }
 }

@@ -40,5 +40,12 @@ class DatabaseSeeder extends Seeder
         \App\Models\EventType::create(array('name' => 'Conference'));
         \App\Models\EventType::create(array('name' => 'Commercial exhibition'));
         \App\Models\EventType::create(array('name' => 'Conference & commercial exhibition'));
+        
+        \App\Models\BillStatus::create(array('name' => 'Sent', 'description' => 'The bill is issued'));
+        \App\Models\BillStatus::create(array('name' => 'Paid', 'description' => 'The bill is fully paid'));
+        \App\Models\BillStatus::create(array('name' => 'Underpaid', 'description' => 'The bill is partially paid'));
+        \App\Models\BillStatus::create(array('name' => 'Waiting for confirmation', 'description' => 'The bill payment is uploaded, but not yet confirmed'));
+        \App\Models\BillStatus::create(array('name' => 'Overdue', 'description' => 'The bill payment is delayed'));
+
     }
 }

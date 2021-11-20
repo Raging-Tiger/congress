@@ -51,3 +51,13 @@ Route::match(['get', 'post'],'/billing_plans', [App\Http\Controllers\BillingPlan
 Route::get('/billing_plans/create', [App\Http\Controllers\BillingPlanController::class, 'create']);
 Route::post('/billing_plans/create', [App\Http\Controllers\BillingPlanController::class, 'create']);
 Route::match(['get', 'post'],'/billing_plans/added', [App\Http\Controllers\BillingPlanController::class, 'store']);
+
+/* Bills routes */
+Route::get('/bills', [App\Http\Controllers\BillController::class, 'index']);
+Route::match(['get', 'post'], '/bills/download', [App\Http\Controllers\BillController::class, 'downloadInvoice']);
+Route::match(['get', 'post'],'/upload_confirmation', [App\Http\Controllers\BillController::class, 'uploadConfirmation']);
+Route::match(['get', 'post'],'/bills/manage', [App\Http\Controllers\BillController::class, 'adminIndex']);
+Route::match(['get', 'post'],'/bills/manage/payment/{id}', [App\Http\Controllers\BillController::class, 'displayPayment']);
+Route::match(['get', 'post'],'/bills/manage/edit/{id}', [App\Http\Controllers\BillController::class, 'edit']);
+Route::match(['get', 'post'],'/bills/manage/edit/{id}/save', [App\Http\Controllers\BillController::class, 'update']);
+

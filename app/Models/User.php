@@ -46,18 +46,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
+    /* Eloquent relations definition */
     public function roles(){
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
     
     
-    public function names(){
-        return $this->belongsTo(Role::class);
+    public function fullNames(){
+        return $this->belongsTo(Name::class, 'name_id');
     }
     
     
     public function companies(){
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Company::class, 'company_id');
     }
     
     public function generalNotifications(){
@@ -80,7 +81,7 @@ class User extends Authenticatable
         return $this->hasMany(Bill::class);
     }
     
-   
+   /* Roles checking requests */
     public function isAdmin() {
         return ($this->role_id == 1);
     } 
@@ -96,4 +97,9 @@ class User extends Authenticatable
     public function isCommercial() {
         return ($this->role_id == 3);
     } 
+    
+    /* Registration for current event checking request */
+    public function isRegistred($id) {
+        return (UserEvent::where('event_id', '=', $id)->where('user_id', '=', $this->id)->exists());
+    }
 }
