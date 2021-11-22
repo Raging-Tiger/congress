@@ -9,6 +9,17 @@ class Article extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    
+    protected $fillable = [
+        'title',
+        'co_authors',
+        'abstract',
+        'reference',
+        'user_id',
+        'event_id',
+        'article_status_id',
+    ];
+    					
 
     public function articleStatuses(){
         return $this->belongsTo(ArticleStatus::class);

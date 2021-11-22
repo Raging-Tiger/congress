@@ -17,10 +17,10 @@ class UserEvent extends Model
         'event_id',
     ];
     public function events() {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class, 'event_id');
     }  
     
     public function users() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

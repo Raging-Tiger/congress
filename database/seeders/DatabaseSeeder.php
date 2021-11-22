@@ -28,6 +28,12 @@ class DatabaseSeeder extends Seeder
                                        'email_notifications' => ENABLED_NOTIFICATIONS,
                                        'role_id' => 1,));
         
+        \App\Models\User::create(array('name' => 'RagingTiger',
+                                       'email' => 'ragingtigerrt@gmail.com',
+                                       'password' => bcrypt('123456789'),
+                                       'email_notifications' => ENABLED_NOTIFICATIONS,
+                                       'role_id' => 2,));
+        
         \App\Models\NotificationType::create(array('name' => 'Public',
                                                    'description' => 'Any visitor will see the announcement'));
         \App\Models\NotificationType::create(array('name' => 'Private',
@@ -46,6 +52,13 @@ class DatabaseSeeder extends Seeder
         \App\Models\BillStatus::create(array('name' => 'Underpaid', 'description' => 'The bill is partially paid'));
         \App\Models\BillStatus::create(array('name' => 'Waiting for confirmation', 'description' => 'The bill payment is uploaded, but not yet confirmed'));
         \App\Models\BillStatus::create(array('name' => 'Overdue', 'description' => 'The bill payment is delayed'));
+        
+        
+        \App\Models\ArticleStatus::create(array('name' => 'Sent', 'description' => 'The article was uploaded by the user, but not yet processed'));
+        \App\Models\ArticleStatus::create(array('name' => 'Under review', 'description' => 'The article is being reviewed'));
+        \App\Models\ArticleStatus::create(array('name' => 'Accepted', 'description' => 'The article is accepted for publication'));
+        \App\Models\ArticleStatus::create(array('name' => 'Declined', 'description' => 'The article is declined for publication'));
+        \App\Models\ArticleStatus::create(array('name' => 'Returned for revision', 'description' => 'The article can be accepted after specified changes'));
 
     }
 }

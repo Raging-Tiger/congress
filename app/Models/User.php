@@ -94,6 +94,10 @@ class User extends Authenticatable
         return ($this->role_id == 2);
     } 
     
+    public function isReviewer() {
+        return ($this->role_id == 4);
+    }
+    
     public function isCommercial() {
         return ($this->role_id == 3);
     } 
@@ -101,5 +105,20 @@ class User extends Authenticatable
     /* Registration for current event checking request */
     public function isRegistred($id) {
         return (UserEvent::where('event_id', '=', $id)->where('user_id', '=', $this->id)->exists());
+    }
+    
+        
+    public function isPaidArticle($eventId) {
+        return (Bill::where('event_id', '=', $eventId)
+                ->where('user_id', '=', $this->id)
+                ->where('bill_status_id', '=', 2)
+                ->where('total_cost_per_articles', '!=', NULL)
+                ->exists());
+    }
+    
+    public function hasArticle($eventId) {
+        return (Article::where('event_id', '=', $eventId)
+                ->where('user_id', '=', $this->id)
+                ->exists());
     }
 }

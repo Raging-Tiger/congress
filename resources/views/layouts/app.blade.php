@@ -47,13 +47,18 @@
                                         @foreach($current_events as  $current_event)
                                             <a class="nav-link" href={{"/events/".$current_event->id}}>{{ $current_event->name }}</a>
                                         @endforeach
+                                        
                                     </div>
                             
                         </li>
                         <li><a class="nav-link" href="/bills">{{ __('user_messages.bills') }}</a></li>
+                        <li><a class="nav-link" href="/articles">{{ __('user_messages.articles') }}</a></li>
 
                         @endif
-                        
+                            
+                        @if ( !Auth::guest() && Auth::user()->isReviewer() )
+                            <a class="nav-link" href="/review/">Reviewer dashboard</a>
+                        @endif
                         {{-- Admin part of Navbar --}}
                         
                         @if ( !Auth::guest() && Auth::user()->isAdmin() )
@@ -69,11 +74,12 @@
                                         <a class="nav-link" href="/billing_plans/create">{{ __('admin_messages.create_billing_plan') }}</a>
                                         <a class="nav-link" href="/billing_plans">{{ __('admin_messages.manage_billing_plans') }}</a>
                                         <a class="nav-link" href="/bills/manage">{{ __('admin_messages.manage_bills') }}</a>
+                                        <a class="nav-link" href="/users">{{ __('admin_messages.manage_roles') }}</a>
                                     </div>
                             </li>
                     @endif
                     </ul>
-                    <!-- Right Side Of Navbar -->.
+                    <!-- Right Side Of Navbar -->
                     
                     {{-- Localization part of Navbar; No access restrictions. --}}
                     

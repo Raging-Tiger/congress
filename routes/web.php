@@ -61,3 +61,13 @@ Route::match(['get', 'post'],'/bills/manage/payment/{id}', [App\Http\Controllers
 Route::match(['get', 'post'],'/bills/manage/edit/{id}', [App\Http\Controllers\BillController::class, 'edit']);
 Route::match(['get', 'post'],'/bills/manage/edit/{id}/save', [App\Http\Controllers\BillController::class, 'update']);
 
+Route::get('/articles', [App\Http\Controllers\ArticleController::class, 'index']);
+Route::match(['get', 'post'],'/articles/{id}/upload', [App\Http\Controllers\ArticleController::class, 'uploadArticle']);
+Route::match(['get', 'post'],'/articles/upload/added', [App\Http\Controllers\ArticleController::class, 'storeArticle']);
+//Route::match(['get', 'post'],'/article_upload_confirmation/{id}', [App\Http\Controllers\ArticleController::class, 'uploadConfirmation']);
+
+
+Route::get('/users', [App\Http\Controllers\UserController::class, 'index']);
+Route::post('/users',[App\Http\Controllers\UserController::class, 'search']);
+Route::match(['get', 'post'],'/users/{id}',[App\Http\Controllers\UserController::class, 'edit']);
+Route::match(['get', 'post'],'/users/{id}/save', [App\Http\Controllers\UserController::class, 'update']);

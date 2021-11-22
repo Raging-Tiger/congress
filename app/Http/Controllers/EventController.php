@@ -62,15 +62,15 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $event_id = 0;
+        $event_type_id = 0;
         if(sizeof($request->selected_event_type) > 1)
         {
-            $event_id = ALL_EVENTS;
+            $event_type_id = ALL_EVENTS;
         }
         
         else
         {
-            $event_id = $request->selected_event_type[0];
+            $event_type_id = $request->selected_event_type[0];
         }
         
         /* Transforming dates from the beginning of the day (00:00) to the end of the day (23:59) */
@@ -82,13 +82,24 @@ class EventController extends Controller
                 'start_date' => $request->start_date,
                 'end_date' => $last_date,
                 'registration_until' => $registration_till,
-                'event_type_id' => $event_id,
+                'event_type_id' => $event_type_id,
                 'billing_plan_id' => $request->billing_plan,
             ]);
         /* Creating folder for storing payment confirmation uploads */
         $folder_name = str_replace(' ', '_', strtolower($request->event_name));
         $path = '/public/payments/' . $folder_name;
         Storage::makeDirectory($path);
+        
+        if($event_type_id == 3 || $event_type_id == 1)
+        {
+           $general_articles_path = '/public/articles/' . $folder_name;
+           Storage::makeDirectory($path);
+           $received_articles_path = '/public/articles/' . $folder_name.'/received';
+           $accepted_articles_path = '/public/articles/' . $folder_name.'/accepted';
+           Storage::makeDirectory($received_articles_path);
+           Storage::makeDirectory($general_articles_path);
+           Storage::makeDirectory($accepted_articles_path);
+        }
         
         return redirect()->action('App\Http\Controllers\EventController@admin_index');
     }
