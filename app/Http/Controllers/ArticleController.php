@@ -9,6 +9,7 @@ use App\Models\UserEvent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\File;
+
 class ArticleController extends Controller
 {
     /**
@@ -78,7 +79,7 @@ class ArticleController extends Controller
                 $existing_article->abstract = $request->abstract;
                 $existing_article->title = $request->title;
                 $existing_article->reference = $file_name;
-
+                $existing_article->article_status_id = 1;
                 $existing_article->save();
 
                 \Storage::delete($received_articles_path.'/'.$old_reference);

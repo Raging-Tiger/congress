@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 use App\Models\Event;
 use Carbon\Carbon;
 use View;
+use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Charts $charts)
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
@@ -35,7 +36,5 @@ class AppServiceProvider extends ServiceProvider
            $current_events = Event::whereDate('end_date', '>=', Carbon::now())->get();
             View::share('current_events', $current_events); 
         }
-        
-        
     }
 }

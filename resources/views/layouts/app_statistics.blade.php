@@ -10,20 +10,28 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-     
-
+    <script src="{{ asset('js/app.js') }}" ></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
+    <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
+
+</head> 
 <body>
     <div id="app">
+        
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            
             <div class="container">
+
+                
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -124,10 +132,43 @@
                 </div>
             </div>
         </nav>
+        <div class="row">
+            <div id="wrapper">
+                <div id="sidebar-wrapper">
+                    <ul class="sidebar-nav" style="margin-left:0;">
+                        <li class="sidebar-brand">
+                                <a href="#menu-toggle"  id="menu-toggle" style="margin-top:20px;float:right;" > <i class="fa fa-bars " style="font-size:20px !Important;" aria-hidden="true" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="/statistics/user_roles"><i class="fa fa-bar-chart " aria-hidden="true"> </i> <span style="margin-left:10px;">User roles</span>  </a>
+                        </li>
+                        <li>
+                            <a href="/statistics/profit"> <i class="fa fa-eur " aria-hidden="true"> </i> <span style="margin-left:10px;">Expected profit</span> </a>
+                        </li>
+                        <li>
+                            <a href="/statistics/income"> <i class="fa fa-credit-card" aria-hidden="true"> </i> <span style="margin-left:10px;">Earned income</span> </a>
+                        </li>
+                        <li>
+                            <a href="/statistics/tax"> <i class="fa fa-font" aria-hidden="true"> </i> <span style="margin-left:10px;"> Taxes </span> </a>
+                        </li>
+                        <li>
+                            <a href="/statistics/acceptance"><i class="fa fa-book" aria-hidden="true"> </i> <span style="margin-left:10px;"> Acceptance rate</span> </a>
+                        </li>
 
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
         <main class="py-4">
             @yield('content')
         </main>
     </div>
 </body>
+    <script>
+    $("#menu-toggle").click(function(e) {
+        //e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
 </html>

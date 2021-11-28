@@ -27,9 +27,11 @@ class UserController extends Controller
         if($request->get('search')!= NULL)
         {
             return DB::table('users')
+            ->join('roles', 'users.role_id', '=', 'roles.id')
             ->leftJoin('names', 'users.name_id', '=', 'names.id')
             ->leftJoin('companies', 'users.company_id', '=', 'companies.id')
-            ->select('users.name as login', 'users.email', 'names.name', 'names.surname', 'companies.name as companyName')
+            ->select('users.name as login', 'users.email', 'names.name', 'names.surname', 'companies.name as companyName',
+                    'users.id', 'roles.name as roleName' )
             ->where('names.name', 'LIKE', '%'.$request->get('search').'%')
             ->orWhere('names.surname', 'LIKE', '%'.$request->get('search').'%')
             ->orWhere('companies.name', 'LIKE', '%'.$request->get('search').'%')

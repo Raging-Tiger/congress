@@ -5,9 +5,16 @@ $(document).ready(function () {
     $("#search").keyup(function () {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.post("/users", { search: $('#search').val(), _token: CSRF_TOKEN }, function(data) {
-            $('.spec').html('');
+            
+            $('.spec').empty();
             $.each(data, function(i, spec) {
-                var c = '<p>' + spec.email + '<\p>';
+                
+                var c = '<tr><td>' + spec.id + 
+                        '</td><td>' + spec.email +  
+                        '</td><td>' + spec.name + ' '+ spec.surname +  
+                        '</td><td>' + spec.companyName +  
+                        '</td><td>' + spec.roleName +  
+                        '</td></tr>';
                  $('.spec').append(c);
             });
         });
@@ -17,11 +24,11 @@ $(document).ready(function () {
 
 <div class="container">
     <div>
-        {{ Form::open() }}    
+        {{ Form::open(['onsubmit' => 'return false;']) }}    
             {{ Form::text('search', '', ['class' => 'form-control', 'id' => 'search'])}} 
         {{ Form::close() }}
     </div>
-    <div class="spec"></div>
+
     <div>           
         <table class="table">
             <tr>
@@ -32,23 +39,25 @@ $(document).ready(function () {
                 <th>Role</th>
                 <th>Edit</th>
             </tr>
-            @foreach($users as $user)
-            <tr>
-                <th>{{$user->id}}</th>
-                <th>{{$user->email}}</th>
-                <th>{{$user->fullNames->title ?? ''}} {{$user->fullNames->name ?? '-'}} {{$user->fullNames->surname ?? ''}}</th>
-                <th>{{$user->companies->name ?? '-'}}</th>
-                <th>{{$user->roles->name}}</th>
-                <th> 
-                    {{ Form::open(['action' => ['App\Http\Controllers\UserController@edit', $user->id]]) }}
-                        {{ Form::submit(('Edit'), ['class' => 'btn btn-primary'])}}
-                    {{ Form::close() }}
-                </th>
-            </tr>
+            <tbody class="spec">
+                @foreach($users as $user)
+                <tr>
+                    <td>{{$user->id}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>{{$user->fullNames->title ?? ''}} {{$user->fullNames->name ?? '-'}} {{$user->fullNames->surname ?? ''}}</td>
+                    <td>{{$user->companies->name ?? '-'}}</td>
+                    <td>{{$user->roles->name}}</td>
+                    <td> 
+                        {{ Form::open(['action' => ['App\Http\Controllers\UserController@edit', $user->id]]) }}
+                            {{ Form::submit(('Edit'), ['class' => 'btn btn-primary'])}}
+                        {{ Form::close() }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
             
             
             
-            @endforeach
         </table>
         
         {!!$users->links()!!}

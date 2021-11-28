@@ -41,7 +41,14 @@ class Event extends Model
     }
     
     public function articles(){
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class, 'event_id');
+    }
+    
+    
+    public function article_curr($id){
+        return (Article::where('event_id', '=', $this->id)
+                ->where('user_id', '=', $id)->first());
+
     }
     
 }

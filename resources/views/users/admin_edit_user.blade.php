@@ -20,7 +20,7 @@
         
         <tr>
             <td> Full name/company </td>
-            <td>{{$user->fullNames->title ?? ''}} {{$user->fullNames->name ?? '-'}} {{$user->fullNames->surname ?? ''}}
+            <td>{{$user->fullNames->title ?? ''}} {{$user->fullNames->name ?? ''}} {{$user->fullNames->surname ?? ''}}
                 {{$user->companies->name ?? ''}}</td>
         </tr>
         

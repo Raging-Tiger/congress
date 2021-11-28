@@ -18,7 +18,8 @@ class CreateArticlesTable extends Migration
             $table->text('title');
             $table->text('co_authors');
             $table->text('abstract');
-            $table->text('reference');
+            $table->text('reference')->nullable();
+            $table->text('review_reference')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('event_id')->constrained();
             $table->foreignId('article_status_id')->constrained();

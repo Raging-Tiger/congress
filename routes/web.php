@@ -71,3 +71,16 @@ Route::get('/users', [App\Http\Controllers\UserController::class, 'index']);
 Route::post('/users',[App\Http\Controllers\UserController::class, 'search']);
 Route::match(['get', 'post'],'/users/{id}',[App\Http\Controllers\UserController::class, 'edit']);
 Route::match(['get', 'post'],'/users/{id}/save', [App\Http\Controllers\UserController::class, 'update']);
+
+
+Route::get('/review', [App\Http\Controllers\ReviewController::class, 'index']);
+Route::post('/review', [App\Http\Controllers\ReviewController::class, 'downloadArticle']);
+Route::match(['get', 'post'],'/review/upload', [App\Http\Controllers\ReviewController::class, 'uploadReview']);
+Route::match(['get', 'post'],'/review/download/{id}', [App\Http\Controllers\ReviewController::class, 'downloadReview']);
+Route::match(['get', 'post'],'/review/edit/{id}',[App\Http\Controllers\ReviewController::class, 'edit']);
+Route::match(['get', 'post'],'/review/edit/{id}/save', [App\Http\Controllers\ReviewController::class, 'update']);
+
+
+Route::get('/statistics/user_roles', [App\Http\Controllers\StatisticController::class, 'userRolesChart']);
+Route::match(['get', 'post'],'/statistics/profit', [App\Http\Controllers\StatisticController::class, 'profitShareGeneralChart']);
+Route::match(['get', 'post'],'/statistics/acceptance', [App\Http\Controllers\StatisticController::class, 'acceptaceChart']);

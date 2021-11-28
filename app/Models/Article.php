@@ -22,15 +22,15 @@ class Article extends Model
     					
 
     public function articleStatuses(){
-        return $this->belongsTo(ArticleStatus::class);
+        return $this->belongsTo(ArticleStatus::class, 'article_status_id');
     }
     
     public function users() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }  
     
     public function events() {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class, 'event_id');
     } 
 
 }
