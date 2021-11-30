@@ -27,12 +27,7 @@ class DatabaseSeeder extends Seeder
                                        'password' => bcrypt('secret'),
                                        'email_notifications' => ENABLED_NOTIFICATIONS,
                                        'role_id' => 1,));
-        
-        \App\Models\User::create(array('name' => 'RagingTiger',
-                                       'email' => 'ragingtigerrt@gmail.com',
-                                       'password' => bcrypt('123456789'),
-                                       'email_notifications' => ENABLED_NOTIFICATIONS,
-                                       'role_id' => 2,));
+
         
         \App\Models\NotificationType::create(array('name' => 'Public',
                                                    'description' => 'Any visitor will see the announcement'));

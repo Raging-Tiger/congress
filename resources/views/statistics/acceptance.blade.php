@@ -1,5 +1,6 @@
 @extends('layouts.app_statistics')
 @section('content')
+<script src="https://code.highcharts.com/highcharts.js"></script>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -8,6 +9,16 @@
                     <div class="card-body">
                        
                             <div class="form-group">
+                                {{ Form::open(['action' => ['App\Http\Controllers\StatisticController@acceptanceChart']]) }}
+                                     {{ Form::label('event', 'Select event', ['class' => 'control-label']) }}
+                                        {{ Form::select('event', $events , $event_id ?? 0)}}
+                                        @if ($errors->has('event'))
+                                            <div class="alert alert-danger">
+                                                {{ $errors->first('event') }}
+                                            </div>
+                                        @endif
+                                    {{ Form::submit(('Retrieve'), ['class' => 'btn btn-primary']) }}
+                                {{ Form::close() }}
                             </div>
                         
                     </div>

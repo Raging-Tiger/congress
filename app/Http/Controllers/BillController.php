@@ -18,14 +18,14 @@ class BillController extends Controller
     public function index()
     {
         
-        $bills = Bill::where('user_id', '=', auth()->user()->id)->orderBy('id', 'desc')->get();
+        $bills = Bill::where('user_id', '=', auth()->user()->id)->orderBy('id', 'desc')->paginate(25);
         
         return view('bills/bills', ['bills' => $bills]);
     }
     public function adminIndex()
     {
         
-        $bills = Bill::orderBy('created_at', 'desc')->get();
+        $bills = Bill::orderBy('created_at', 'desc')->paginate(25);
         
         return view('bills/admin_bills', ['bills' => $bills]);
     }
@@ -80,6 +80,7 @@ class BillController extends Controller
         $bill = Bill::where('id', $request->bill_id)->first();
         $event_name = $bill->events->name;
         $bill->bill_status_id = 4;
+        $bill->is_confirmation_uploaded = true;
         $bill->save();
       
      

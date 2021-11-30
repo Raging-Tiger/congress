@@ -19,6 +19,7 @@ class CreateBillsTable extends Migration
             $table->decimal('total_cost_per_articles', $precision = 8, $scale = 2)->nullable(); 
             $table->decimal('total_cost_per_participation', $precision = 8, $scale = 2)->nullable();
             $table->decimal('total_cost_per_materials', $precision = 8, $scale = 2)->nullable();
+            $table->boolean('is_confirmation_uploaded')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('event_id')->constrained();
             $table->foreignId('bill_status_id')->constrained();

@@ -11,7 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" ></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     
     <!-- Fonts -->

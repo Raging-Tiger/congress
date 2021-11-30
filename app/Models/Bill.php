@@ -12,6 +12,7 @@ class Bill extends Model
         'total_cost_per_articles',
         'total_cost_per_participation',
         'total_cost_per_materials',
+        'is_confirmation_uploaded',
         'user_id',
         'event_id',
         'bill_status_id',

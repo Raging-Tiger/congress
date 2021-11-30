@@ -35,10 +35,10 @@ class UserController extends Controller
             ->where('names.name', 'LIKE', '%'.$request->get('search').'%')
             ->orWhere('names.surname', 'LIKE', '%'.$request->get('search').'%')
             ->orWhere('companies.name', 'LIKE', '%'.$request->get('search').'%')
+            ->orWhere('users.name', 'LIKE', '%'.$request->get('search').'%')
             ->get();
            //return User::where('name', 'LIKE', '%'.$request->get('search').'%')->get(); 
-        }
-        
+        }        
     
     }
 
@@ -72,7 +72,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::all();
+        $roles;
+        
+        if(User::where('id', $id)->first()->name_id == NULL)
+        {
+            $roles = Role::where('id', 3)->orWhere('id', 5)->get();
+        }
+        else
+        {
+             $roles = Role::where('id', '!=' , 3)->get();
+        }
+
         $roles_list = $roles->pluck('name', 'id');
         
         

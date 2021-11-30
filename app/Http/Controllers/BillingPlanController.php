@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BillingPlan;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use function view;
 
@@ -38,6 +39,14 @@ class BillingPlanController  extends Controller
      */
     public function store(Request $request)
     {
+        $rules = array(
+            'billing_plan_name' => 'required',
+            'cost_per_article' => 'required|numeric',
+            'cost_per_participation' => 'required|numeric',
+            'cost_per_material' => 'required|numeric',
+        );        
+       
+        $this->validate($request, $rules);
         BillingPlan::create([
             'name' => $request->billing_plan_name,
             'cost_per_article' => $request->cost_per_article,
@@ -67,7 +76,10 @@ class BillingPlanController  extends Controller
      */
     public function edit($id)
     {
-        //
+        $billing_plan = BillingPlan::where('id', $id)->first();
+        
+        return view('bills/edit_billing_plan', ['billing_plan' => $billing_plan]);
+
     }
 
     /**
@@ -77,9 +89,16 @@ class BillingPlanController  extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $billing_plan = BillingPlan::where('id', $request->billing_plan_id)->first();
+        $billing_plan->name = $request->billing_plan_name;
+        $billing_plan->cost_per_article = $request->cost_per_article;
+        $billing_plan->cost_per_participation = $request->cost_per_participation;
+        $billing_plan->cost_per_material = $request->cost_per_material;
+        $billing_plan->save();
+        
+        return redirect()->action('App\Http\Controllers\BillingPlanController@index');
     }
 
     /**
@@ -90,6 +109,12 @@ class BillingPlanController  extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(!Event::where('billing_plan_id', $id)->exists())
+        {
+            BillingPlan::where('id', $id)->delete();
+            return \Redirect::back();
+        }
+        
+        return \Redirect::back()->withErrors(['msg' => 'Billing plan cannot be deleted, unless it is detached from the events']);
     }
 }

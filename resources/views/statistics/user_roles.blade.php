@@ -1,6 +1,6 @@
 @extends('layouts.app_statistics')
 @section('content')
-
+<script src="https://code.highcharts.com/highcharts.js"></script>
 
     <div class="container">
         <div class="row justify-content-center">

@@ -10,6 +10,8 @@ use App\Models\Bill;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Storage;
+use PDF;
+
 define('ALL_EVENTS', 3);
 define('BILL_STATUS_SENT', 1);
 
@@ -62,6 +64,18 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = array(
+            'event_name' => 'required',
+            'start_date' => 'required|after_or_equal:today',
+            'end_date' => 'required|after_or_equal:start_date',
+            'registration_till' => 'required|before_or_equal:start_date',
+            'event_info' => 'required',
+            'selected_event_type' => 'required',
+            'billing_plan' => 'required',
+        );        
+       
+        $this->validate($request, $rules); 
+      
         $event_type_id = 0;
         if(sizeof($request->selected_event_type) > 1)
         {
@@ -83,6 +97,7 @@ class EventController extends Controller
                 'end_date' => $last_date,
                 'registration_until' => $registration_till,
                 'event_type_id' => $event_type_id,
+                'info' => $request->event_info,
                 'billing_plan_id' => $request->billing_plan,
             ]);
         /* Creating folder for storing payment confirmation uploads */
@@ -175,7 +190,16 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
+        $billing_plans = BillingPlan::all();
+        $billing_plans_list = $billing_plans->pluck('name', 'id');
+
+        $event_types = EventType::all()->take(2);
+        
+        $event = Event::where('id', '=', $id)->first();
+        return view('events/edit_event', ['event' => $event,
+                                          'event_types' => $event_types, 
+                                          'billing_plans' => $billing_plans_list,
+                                          'id' => $id]);
     }
 
     /**
@@ -185,9 +209,57 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $rules = array(
+            'event_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required|after_or_equal:start_date',
+            'registration_till' => 'required|before_or_equal:start_date',
+            'event_info' => 'required',
+            'billing_plan' => 'required',
+        );        
+       
+        $this->validate($request, $rules); 
+      
+        
+        /* Transforming dates from the beginning of the day (00:00) to the end of the day (23:59) */
+        $last_date = Carbon::createFromFormat('Y-m-d', $request->end_date)->endOfDay()->toDateTimeString();
+        $registration_till = Carbon::createFromFormat('Y-m-d', $request->registration_till)->endOfDay()->toDateTimeString();
+        
+        $event = Event::where('id', $request->event_id)->first();
+        $old_name = $event->name;
+        //dd(Storage::disk('local'));
+        if($old_name != $request->event_name)
+        {
+            $old_folder_name = str_replace(' ', '_', strtolower($old_name));
+            $old_articles_path = '/public/articles/' . $old_folder_name;
+            $old_payment_path = '/public/payments/' . $old_folder_name;
+            $new_folder_name = str_replace(' ', '_', strtolower($request->event_name));
+            
+            if (Storage::disk('local')->exists($old_articles_path)) 
+            {
+                $new_articles_path = '/public/articles/' . $new_folder_name;
+                Storage::disk('local')->move($old_articles_path, $new_articles_path);
+            }
+            
+            if (Storage::disk('local')->exists($old_payment_path)) 
+            {
+                $new_payment_path = '/public/payments/' . $new_folder_name;
+                Storage::disk('local')->move($old_payment_path, $new_payment_path);
+
+            }
+
+                        $event->name = $request->event_name;
+        }
+        $event->start_date = $request->start_date;
+        $event->end_date = $last_date;
+        $event->registration_until = $registration_till;
+        $event->info = $request->event_info;
+        $event->billing_plan_id = $request->billing_plan;
+        $event->save();
+
+        return redirect()->action('App\Http\Controllers\EventController@admin_index');
     }
 
     /**
@@ -198,6 +270,36 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(!UserEvent::where('event_id', $id)->exists())
+        {
+            $name = Event::where('id', $id)->first('name');
+            $folder_name = str_replace(' ', '_', strtolower($name->name));
+
+            $articles_path = '/public/articles/' . $folder_name;
+            $payment_path = '/public/payments/' . $folder_name;
+            Event::where('id', $id)->delete();
+            
+            Storage::disk('local')->deleteDirectory($payment_path);
+            Storage::disk('local')->deleteDirectory($articles_path);
+            
+            return \Redirect::back();
+        }
+            return \Redirect::back()->withErrors(['msg' => 'Event cannot be deleted']);
+    }
+    
+    public function downloadParticipantList($id)
+    {
+        $event = Event::where('id', $id)->first();
+        $userEvents = UserEvent::where('event_id', $id)->get();
+        $name = $event->name.'_participant_list'.'.pdf';
+        $data = [
+            'event' => $event,
+            'participants' => $userEvents,
+            ];
+        //dd($userEvents);
+        $pdf = PDF::loadView('/invoices/user_list', $data);  
+        
+        return $pdf->download($name);
+
     }
 }

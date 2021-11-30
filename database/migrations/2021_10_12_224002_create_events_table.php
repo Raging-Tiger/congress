@@ -21,6 +21,7 @@ class CreateEventsTable extends Migration
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->timestamp('registration_until');
+            $table->text('info');
             $table->foreignId('event_type_id')->constrained();
             $table->foreignId('billing_plan_id')->constrained();
         });

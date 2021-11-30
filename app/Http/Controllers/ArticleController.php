@@ -29,9 +29,24 @@ class ArticleController extends Controller
                 ->pluck('bills.id')->toArray();
         
         
-        $events = UserEvent::where('user_id', auth()->user()->id)->whereIn('event_id', $eligible_events)->get();
-        //dd($event);
-        return view('articles/articles', ['events' => $events]);
+        $events = UserEvent::where('user_id', auth()->user()->id)->whereIn('event_id', $eligible_events)->paginate(5);
+        $events_ids = $events->pluck('id');
+        $acceptance = array();
+        foreach($events_ids as $id)
+        {
+            $all_articles = Article::where('event_id', $id)->count();
+            $accepted_articles = Article::where('event_id', $id)
+                                 ->where('article_status_id', 3)->count();
+            $declined_articles = Article::where('event_id', $id)
+                                 ->where('article_status_id', 4)->count();
+            $reviewed_articles = Article::where('event_id', $id)
+                                 ->where('article_status_id', 2)->count();
+            $not_processed = $all_articles - $accepted_articles - $declined_articles - $reviewed_articles;
+            
+            array_push($acceptance, array($accepted_articles, $declined_articles, $reviewed_articles, $not_processed));
+        }
+       // dd($acceptance);
+        return view('articles/articles', ['events' => $events, 'acceptance' => $acceptance]);
     }
     
     public function uploadArticle($id) 

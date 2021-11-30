@@ -9,7 +9,7 @@
                     <div class="card-body">
                        
                             <div class="form-group">
-                                {{ Form::open(['action' => ['App\Http\Controllers\StatisticController@profitShareGeneralChart']]) }}
+                                {{ Form::open(['action' => ['App\Http\Controllers\StatisticController@incomeChart']]) }}
                                      {{ Form::label('event', 'Select event', ['class' => 'control-label']) }}
                                         {{ Form::select('event', $events , $event_id ?? 0)}}
                                         @if ($errors->has('event'))
@@ -128,3 +128,5 @@
     });
 </script>
 @endsection
+
+

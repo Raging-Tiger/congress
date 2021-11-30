@@ -15,6 +15,7 @@ class Event extends Model
         'start_date',
         'end_date',
         'registration_until',
+        'info',
         'event_type_id',
         'billing_plan_id',
     ];

@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
      
 
     <!-- Fonts -->
@@ -34,10 +34,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     
-                    {{-- User part of Navbar --}}
+                    {{-- User part of Navbar. Is seen only by Private ro Commercial users --}}
 
                     <ul class="navbar-nav mr-auto">
-                        @if ( !Auth::guest() && !Auth::user()->isBlocked() )
+                        @if ( !Auth::guest() && !Auth::user()->isBlocked() && (Auth::user()->isPrivate() || Auth::user()->isCommercial()))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="/events">{{ __('user_messages.events') }}</a>
                                     <div class="dropdown-menu">                       
@@ -76,6 +76,7 @@
                                         <a class="nav-link" href="/billing_plans">{{ __('admin_messages.manage_billing_plans') }}</a>
                                         <a class="nav-link" href="/bills/manage">{{ __('admin_messages.manage_bills') }}</a>
                                         <a class="nav-link" href="/users">{{ __('admin_messages.manage_roles') }}</a>
+                                        <a class="nav-link" href="/statistics">{{ __('admin_messages.statistics') }}</a>
                                     </div>
                             </li>
                     @endif

@@ -121,4 +121,12 @@ class User extends Authenticatable
                 ->where('user_id', '=', $this->id)
                 ->exists());
     }
+    
+    public function billEvent($eventId){
+
+        return (Bill::where('event_id', '=', $eventId)
+                ->where('user_id', '=', $this->id)
+                ->first());
+
+    }
 }

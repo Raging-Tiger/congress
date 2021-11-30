@@ -44,13 +44,19 @@ Route::get('/events/manage', [App\Http\Controllers\EventController::class, 'admi
 Route::get('/events/{id}', [App\Http\Controllers\EventController::class, 'show']);
 Route::match(['get', 'post'],'/events/{id}/register', [App\Http\Controllers\EventController::class, 'register']);
 Route::match(['get', 'post'],'/events/{id}/register/added', [App\Http\Controllers\EventController::class, 'storeRegistration']);
-
+Route::match(['get', 'post'],'/events/manage/edit/{id}', [App\Http\Controllers\EventController::class, 'edit']);
+Route::match(['get', 'post'],'/events/manage/save', [App\Http\Controllers\EventController::class, 'update']);
+Route::match(['get', 'post'],'/events/manage/{id}/delete', [App\Http\Controllers\EventController::class, 'destroy']);
+Route::match(['get', 'post'],'/events/manage/{id}/download', [App\Http\Controllers\EventController::class, 'downloadParticipantList']);
 
 /* Billing plan routes */
 Route::match(['get', 'post'],'/billing_plans', [App\Http\Controllers\BillingPlanController::class, 'index']);
 Route::get('/billing_plans/create', [App\Http\Controllers\BillingPlanController::class, 'create']);
 Route::post('/billing_plans/create', [App\Http\Controllers\BillingPlanController::class, 'create']);
 Route::match(['get', 'post'],'/billing_plans/added', [App\Http\Controllers\BillingPlanController::class, 'store']);
+Route::match(['get', 'post'],'/billing_plans/{id}/delete', [App\Http\Controllers\BillingPlanController::class, 'destroy']);
+Route::match(['get', 'post'],'/billing_plans/edit/{id}', [App\Http\Controllers\BillingPlanController::class, 'edit']);
+Route::match(['get', 'post'],'/billing_plans/save', [App\Http\Controllers\BillingPlanController::class, 'update']);
 
 /* Bills routes */
 Route::get('/bills', [App\Http\Controllers\BillController::class, 'index']);
@@ -80,7 +86,10 @@ Route::match(['get', 'post'],'/review/download/{id}', [App\Http\Controllers\Revi
 Route::match(['get', 'post'],'/review/edit/{id}',[App\Http\Controllers\ReviewController::class, 'edit']);
 Route::match(['get', 'post'],'/review/edit/{id}/save', [App\Http\Controllers\ReviewController::class, 'update']);
 
-
+Route::get('/statistics', [App\Http\Controllers\StatisticController::class, 'index']);
 Route::get('/statistics/user_roles', [App\Http\Controllers\StatisticController::class, 'userRolesChart']);
 Route::match(['get', 'post'],'/statistics/profit', [App\Http\Controllers\StatisticController::class, 'profitShareGeneralChart']);
-Route::match(['get', 'post'],'/statistics/acceptance', [App\Http\Controllers\StatisticController::class, 'acceptaceChart']);
+Route::match(['get', 'post'],'/statistics/acceptance', [App\Http\Controllers\StatisticController::class, 'acceptanceChart']);
+Route::match(['get', 'post'],'/statistics/tax', [App\Http\Controllers\StatisticController::class, 'taxChart']);
+Route::match(['get', 'post'],'/statistics/income', [App\Http\Controllers\StatisticController::class, 'incomeChart']);
+Route::match(['get', 'post'],'/statistics/users', [App\Http\Controllers\StatisticController::class, 'usersChart']);
