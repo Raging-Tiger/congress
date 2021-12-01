@@ -14,7 +14,7 @@
        
                 @foreach($notifications as $notification)
                     <div class="card">
-                            <h4 class="list-group-item list-group-item-primary">{{$notification->header}}</h4>
+                            <h4 class="list-group-item list-group-item bg-primary text-white">{{$notification->header}}</h4>
                             <div class="card-body">
 
                                 <div class="float-right">
@@ -32,7 +32,7 @@
                                 </div>
                                 
                                 <div>
-                                <p> {{$notification->message}} </p>
+                                <p> {!! nl2br(e($notification->message)) !!} </p>
                                 </div>
                                 
                                  <h5>{{ __('admin_messages.author') }}: 

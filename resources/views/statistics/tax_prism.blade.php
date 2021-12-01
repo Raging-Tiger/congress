@@ -7,11 +7,7 @@
             <div class="col-md-12">
 
                 <div class="card">
-                    <div class="card-body">
-                      
-                        
-                    </div>
-                    <div class="card-header">Article acceptance </div>
+                    <div class="card-header">{{__('admin_messages.tax_prism')}} </div>
                     <div class="card-body">
                         <div id="acceptance_chart_container"></div>
                     </div>
@@ -21,6 +17,7 @@
         </div>
     </div>
 <script type="application/javascript">
+    var title = <?php echo json_encode(trans('admin_messages.tax_prism_vat'))?>;
 
     var data = [{
         x: [0, 5, 5, 0, 0, 5, 5, 0],
@@ -104,7 +101,7 @@
                 zeroline: false
             }
         },
-        title: '3d point clustering',
+        title: title,
         width: 1000
     };
 

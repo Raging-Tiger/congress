@@ -5,9 +5,9 @@
             <div class="col-md-12">
 
                 <div class="card">
-                    <div class="card-header">Statistics dashboard </div>
+                    <div class="card-header">{{ __('admin_messages.statistics_dashboard') }}</div>
                     <div class="card-body">
-                        <div></div>
+                        <div><h4>{{ __('admin_messages.statistic_welcome') }}.</h4></div>
                     </div>
              
                 </div>

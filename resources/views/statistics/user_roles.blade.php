@@ -7,7 +7,7 @@
             <div class="col-md-12">
 
                 <div class="card">
-                    <div class="card-header">Users Roles</div>
+                    <div class="card-header">{{ __('admin_messages.user_roles') }}</div>
                     <div class="card-body">
                         <div id="container"></div>
                     </div>
@@ -16,8 +16,10 @@
         </div>
     </div>
 <script type="application/javascript">
+var title = <?php echo json_encode(trans('admin_messages.user_roles'))?>;
+var xAxis = <?php echo json_encode(trans('admin_messages.roles'))?>;
+var yAxis = <?php echo json_encode(trans('admin_messages.num_of_users'))?>;
 var userRolesData = <?php echo json_encode($userData)?>;
-console.log(userRolesData)
 
 Highcharts.chart('container', {
 
@@ -25,11 +27,11 @@ Highcharts.chart('container', {
           type: 'column'
         },
         title: {
-            text: 'Users'
+            text: title
         },
         xAxis: {
             title: {
-                text: 'Roles'
+                text: xAxis
             },
             labels: {
             enabled: false
@@ -38,7 +40,7 @@ Highcharts.chart('container', {
         },
         yAxis: {
             title: {
-                text: 'Number of users'
+                text: yAxis
             },
             tickInterval: 1
         },

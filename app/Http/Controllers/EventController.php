@@ -297,7 +297,7 @@ class EventController extends Controller
             'participants' => $userEvents,
             ];
         //dd($userEvents);
-        $pdf = PDF::loadView('/invoices/user_list', $data);  
+        $pdf = PDF::loadView('/document_templates/user_list', $data);  
         
         return $pdf->download($name);
 

@@ -15,7 +15,7 @@
                 <div class="card">
                     
 
-                        <div class="card-header">Potential profit (EUR)</div>
+                        <div class="card-header">{{__('admin_messages.new_users_registration')}}</div>
                         <div class="card-body">
                             <div id="container"></div>
                         </div>
@@ -26,13 +26,7 @@
     </div>
 <script type="application/javascript">
 var data = <?php echo json_encode($userData)  ?>;
-var data = [['1633305600', 1], ['1633305600', 5]];
-const arr = [];
-for (let i = 0; i < data.length; i++) {
-    console.log(data[i]);
-  arr.push(data[i]);
-}
-console.log(arr);
+var title = <?php echo json_encode(trans('admin_messages.new_users_registration'))?>;
 
     Highcharts.stockChart('container', {
 
@@ -42,12 +36,12 @@ console.log(arr);
         },
 
         title: {
-            text: 'New Users'
+            text: title
         },
 
         series: [{
             name: 'Registrated',
-            data: arr,
+            data: data,
             tooltip: {
                 valueDecimals: 0
             }

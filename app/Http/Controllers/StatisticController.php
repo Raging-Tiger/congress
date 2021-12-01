@@ -175,7 +175,7 @@ class StatisticController extends Controller
         foreach($userData as $ud)
         {
             
-            array_push($data, array(strtotime($ud->date), $ud->count));
+            array_push($data, array(strtotime($ud->date) * 1000, $ud->count));
         }
         //dd($data);
         return view('statistics/users', ['userData' => $data]);

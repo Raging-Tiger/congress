@@ -26,7 +26,7 @@
                                 <b>{{$public->header}}</b>
                             </h5>
                             <p class="card-text">
-                                {{$public->message}}
+                                {!! nl2br(e($public->message)) !!}
                             </p>
                         </div>
                         <div class="card-footer">
@@ -82,7 +82,7 @@
                                 <b>{{$private->header}}</b>
                             </h5>
                             <p class="card-text">
-                                {{$private->message}}
+                                {!! nl2br(e($private->message)) !!}
                             </p>
                         </div>
                         <div class="card-footer">

@@ -42,51 +42,32 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     
-                    {{-- User part of Navbar --}}
 
                     <ul class="navbar-nav mr-auto">
-                        @if ( !Auth::guest() && !Auth::user()->isBlocked() )
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="/events">{{ __('user_messages.events') }}</a>
-                                    <div class="dropdown-menu">                       
-                                        <a class="nav-link" href="/events">{{ __('user_messages.all_events') }}</a>
-                                        
-                                        {{-- Output each current event, that is not finished --}}
-                                        
-                                        @foreach($current_events as  $current_event)
-                                            <a class="nav-link" href={{"/events/".$current_event->id}}>{{ $current_event->name }}</a>
-                                        @endforeach
-                                        
-                                    </div>
-                            
-                        </li>
-                        <li><a class="nav-link" href="/bills">{{ __('user_messages.bills') }}</a></li>
-                        <li><a class="nav-link" href="/articles">{{ __('user_messages.articles') }}</a></li>
-
-                        @endif
-                            
-                        @if ( !Auth::guest() && Auth::user()->isReviewer() )
-                            <a class="nav-link" href="/review">Reviewer dashboard</a>
-                        @endif
                         {{-- Admin part of Navbar --}}
                         
                         @if ( !Auth::guest() && Auth::user()->isAdmin() )
                             <li><a class="nav-link" href="/notifications">{{ __('admin_messages.notifications') }}</a></li>
-                        @endif
-                    
-                        @if ( !Auth::guest() && Auth::user()->isAdmin() )
+
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('admin_messages.admin') }}</a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('admin_messages.events') }}</a>
                                     <div class="dropdown-menu">
                                         <a class="nav-link" href="/events/create">{{ __('admin_messages.create_event') }}</a>
                                         <a class="nav-link" href="/events/manage">{{ __('admin_messages.manage_events') }}</a>
-                                        <a class="nav-link" href="/billing_plans/create">{{ __('admin_messages.create_billing_plan') }}</a>
-                                        <a class="nav-link" href="/billing_plans">{{ __('admin_messages.manage_billing_plans') }}</a>
-                                        <a class="nav-link" href="/bills/manage">{{ __('admin_messages.manage_bills') }}</a>
-                                        <a class="nav-link" href="/users">{{ __('admin_messages.manage_roles') }}</a>
                                     </div>
                             </li>
-                    @endif
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('admin_messages.billing_plans') }}</a>
+                                    <div class="dropdown-menu">
+                                        <a class="nav-link" href="/billing_plans/create">{{ __('admin_messages.create_billing_plan') }}</a>
+                                        <a class="nav-link" href="/billing_plans">{{ __('admin_messages.manage_billing_plans') }}</a>
+                                    </div>
+                            </li>
+                            <li><a class="nav-link" href="/users">{{ __('admin_messages.manage_roles') }}</a></li>
+                            <li><a class="nav-link" href="/statistics">{{ __('admin_messages.statistics') }}</a></li>
+                            
+                        @endif
                     </ul>
                     <!-- Right Side Of Navbar -->
                     
@@ -140,19 +121,22 @@
                                 <a href="#menu-toggle"  id="menu-toggle" style="margin-top:20px;float:right;" > <i class="fa fa-bars " style="font-size:20px !Important;" aria-hidden="true" aria-hidden="true"></i></a>
                         </li>
                         <li>
-                            <a href="/statistics/user_roles"><i class="fa fa-bar-chart " aria-hidden="true"> </i> <span style="margin-left:10px;">User roles</span>  </a>
+                            <a href="/statistics/users"><i class="fa fa-user" aria-hidden="true"> </i> <span style="margin-left:10px;">{{__('admin_messages.users')}}</span>  </a>
                         </li>
                         <li>
-                            <a href="/statistics/profit"> <i class="fa fa-eur " aria-hidden="true"> </i> <span style="margin-left:10px;">Expected profit</span> </a>
+                            <a href="/statistics/user_roles"><i class="fa fa-bar-chart " aria-hidden="true"> </i> <span style="margin-left:10px;">{{__('admin_messages.user_roles')}}</span>  </a>
                         </li>
                         <li>
-                            <a href="/statistics/income"> <i class="fa fa-credit-card" aria-hidden="true"> </i> <span style="margin-left:10px;">Earned income</span> </a>
+                            <a href="/statistics/profit"> <i class="fa fa-eur " aria-hidden="true"> </i> <span style="margin-left:10px;">{{__('admin_messages.expected_profit')}}</span> </a>
                         </li>
                         <li>
-                            <a href="/statistics/tax"> <i class="fa fa-font" aria-hidden="true"> </i> <span style="margin-left:10px;"> Taxes </span> </a>
+                            <a href="/statistics/income"> <i class="fa fa-credit-card" aria-hidden="true"> </i> <span style="margin-left:10px;">{{__('admin_messages.earned_income')}}</span> </a>
                         </li>
                         <li>
-                            <a href="/statistics/acceptance"><i class="fa fa-book" aria-hidden="true"> </i> <span style="margin-left:10px;"> Acceptance rate</span> </a>
+                            <a href="/statistics/tax"> <i class="fa fa-font" aria-hidden="true"> </i> <span style="margin-left:10px;"> {{__('admin_messages.taxes')}} </span> </a>
+                        </li>
+                        <li>
+                            <a href="/statistics/acceptance"><i class="fa fa-book" aria-hidden="true"> </i> <span style="margin-left:10px;"> {{__('admin_messages.acceptance_rate')}} </span> </a>
                         </li>
 
                     </ul>

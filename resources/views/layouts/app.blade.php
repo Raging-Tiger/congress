@@ -64,22 +64,26 @@
                         
                         @if ( !Auth::guest() && Auth::user()->isAdmin() )
                             <li><a class="nav-link" href="/notifications">{{ __('admin_messages.notifications') }}</a></li>
-                        @endif
-                    
-                        @if ( !Auth::guest() && Auth::user()->isAdmin() )
+
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('admin_messages.admin') }}</a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('admin_messages.events') }}</a>
                                     <div class="dropdown-menu">
                                         <a class="nav-link" href="/events/create">{{ __('admin_messages.create_event') }}</a>
                                         <a class="nav-link" href="/events/manage">{{ __('admin_messages.manage_events') }}</a>
-                                        <a class="nav-link" href="/billing_plans/create">{{ __('admin_messages.create_billing_plan') }}</a>
-                                        <a class="nav-link" href="/billing_plans">{{ __('admin_messages.manage_billing_plans') }}</a>
-                                        <a class="nav-link" href="/bills/manage">{{ __('admin_messages.manage_bills') }}</a>
-                                        <a class="nav-link" href="/users">{{ __('admin_messages.manage_roles') }}</a>
-                                        <a class="nav-link" href="/statistics">{{ __('admin_messages.statistics') }}</a>
                                     </div>
                             </li>
-                    @endif
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('admin_messages.billing_plans') }}</a>
+                                    <div class="dropdown-menu">
+                                        <a class="nav-link" href="/billing_plans/create">{{ __('admin_messages.create_billing_plan') }}</a>
+                                        <a class="nav-link" href="/billing_plans">{{ __('admin_messages.manage_billing_plans') }}</a>
+                                    </div>
+                            </li>
+                            <li><a class="nav-link" href="/users">{{ __('admin_messages.manage_roles') }}</a></li>
+                            <li><a class="nav-link" href="/statistics">{{ __('admin_messages.statistics') }}</a></li>
+                            
+                        @endif
                     </ul>
                     <!-- Right Side Of Navbar -->
                     

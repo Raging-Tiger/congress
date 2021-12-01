@@ -10,19 +10,19 @@
                        
                             <div class="form-group">
                                 {{ Form::open(['action' => ['App\Http\Controllers\StatisticController@acceptanceChart']]) }}
-                                     {{ Form::label('event', 'Select event', ['class' => 'control-label']) }}
+                                     {{ Form::label('event', __('admin_messages.select_event'), ['class' => 'control-label']) }}
                                         {{ Form::select('event', $events , $event_id ?? 0)}}
                                         @if ($errors->has('event'))
                                             <div class="alert alert-danger">
                                                 {{ $errors->first('event') }}
                                             </div>
                                         @endif
-                                    {{ Form::submit(('Retrieve'), ['class' => 'btn btn-primary']) }}
+                                    {{ Form::submit((__('admin_messages.retrieve')), ['class' => 'btn btn-primary']) }}
                                 {{ Form::close() }}
                             </div>
                         
                     </div>
-                    <div class="card-header">Article acceptance </div>
+                    <div class="card-header">{{__('admin_messages.article_acceptance_rate')}}</div>
                     <div class="card-body">
                         <div id="acceptance_chart_container"></div>
                     </div>
@@ -32,6 +32,8 @@
         </div>
     </div>
 <script type="application/javascript">
+    var title = <?php echo json_encode(trans('admin_messages.article_acceptance_rate_title'))?>;
+    
     var accepted_articles  = <?php echo $accepted_articles?>;
     var declined_articles = <?php echo $declined_articles?>;
     var not_processed = <?php echo $not_processed?>;
@@ -44,7 +46,7 @@ Highcharts.chart('acceptance_chart_container', {
         plotShadow: false
     },
     title: {
-        text: 'Article<br>acceptance',
+        text: title,
         align: 'center',
         verticalAlign: 'middle',
         y: 60

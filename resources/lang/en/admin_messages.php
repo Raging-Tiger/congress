@@ -70,6 +70,36 @@ return [
     'role' => 'Role',
     'articles' => 'Articles',
     'edit_user_role' => 'Edit user role',
-    
+    'events' => 'Events',
+    'billing_plans' => 'Billing plans',
+    'user_roles' => 'User roles',
+    'expected_profit' => 'Expected profit',
+    'earned_income' => 'Earned income',
+    'taxes' => 'Taxes',
+    'acceptance_rate' => 'Acceptance rate',
+    'statistic_welcome' => 'Welcome to the statistic dashboard! '
+                           . 'Here is generated real-time statistics for various important '
+                           . 'managerial indicators, which can be chosen from '
+                           . 'the side-bar menu',
+    'statistics_dashboard' => 'Statistics dashboard',
+    'roles' => 'Roles',
+    'num_of_users' => 'Number of users',
+    'select_event' => 'Select event',
+    'potent_profit_share' => 'Potential profit share',
+    'potent_profit' => 'Potential profit (EUR)',
+    'profit_share' => 'Profit share',
+    'retrieve' => 'Retrieve',
+    'source_of_income' => 'Source of income',
+    'rec_income_share' => 'Received income share',
+    'income_share' => 'Income share',
+    'rec_income_share_eur' => 'Received income share (EUR)',
+    'tax_prism' => 'Tax prism',
+    'tax_prism_vat' => 'Tax prism (VAT only)',
+    'users' => 'Users',
+    'new_users_registration' => 'New users registration',
+    'article_acceptance_rate' => 'Article acceptance rate',
+    'article_acceptance_rate_title' => 'Article<br>acceptance<br>rate',
+    'edit_notification' => 'Edit notification',
+   
 ];
 

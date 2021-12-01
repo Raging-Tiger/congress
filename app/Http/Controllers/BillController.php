@@ -60,7 +60,7 @@ class BillController extends Controller
             'name' => $name,
             ];
         
-        $pdf = PDF::loadView('/invoices/invoice', $data);  
+        $pdf = PDF::loadView('/document_templates/invoice', $data);  
         
         return $pdf->download($name);
         //return view('invoices/invoice', ['bill' => $bill]);

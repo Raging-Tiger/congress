@@ -47,6 +47,7 @@ class BillingPlanController  extends Controller
         );        
        
         $this->validate($request, $rules);
+        
         BillingPlan::create([
             'name' => $request->billing_plan_name,
             'cost_per_article' => $request->cost_per_article,
@@ -57,16 +58,6 @@ class BillingPlanController  extends Controller
         return redirect()->action('App\Http\Controllers\BillingPlanController@index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -91,6 +82,15 @@ class BillingPlanController  extends Controller
      */
     public function update(Request $request)
     {
+        $rules = array(
+            'billing_plan_name' => 'required',
+            'cost_per_article' => 'required|numeric',
+            'cost_per_participation' => 'required|numeric',
+            'cost_per_material' => 'required|numeric',
+        );        
+       
+        $this->validate($request, $rules);
+        
         $billing_plan = BillingPlan::where('id', $request->billing_plan_id)->first();
         $billing_plan->name = $request->billing_plan_name;
         $billing_plan->cost_per_article = $request->cost_per_article;

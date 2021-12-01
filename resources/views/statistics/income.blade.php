@@ -10,23 +10,23 @@
                        
                             <div class="form-group">
                                 {{ Form::open(['action' => ['App\Http\Controllers\StatisticController@incomeChart']]) }}
-                                     {{ Form::label('event', 'Select event', ['class' => 'control-label']) }}
+                                     {{ Form::label('event', __('admin_messages.select_event'), ['class' => 'control-label']) }}
                                         {{ Form::select('event', $events , $event_id ?? 0)}}
                                         @if ($errors->has('event'))
                                             <div class="alert alert-danger">
                                                 {{ $errors->first('event') }}
                                             </div>
                                         @endif
-                                    {{ Form::submit(('Retrieve'), ['class' => 'btn btn-primary']) }}
+                                    {{ Form::submit((__('admin_messages.retrieve')), ['class' => 'btn btn-primary']) }}
                                 {{ Form::close() }}
                             </div>
                         
                     </div>
-                    <div class="card-header">Potential profit share</div>
+                    <div class="card-header">{{__('admin_messages.rec_income_share')}}</div>
                     <div class="card-body">
                         <div id="pie_chart_container"></div>
                     </div>
-                    <div class="card-header">Potential profit (EUR)</div>
+                    <div class="card-header">{{__('admin_messages.rec_income_share_eur')}}</div>
                     <div class="card-body">
                         <div id="bar_chart_container"></div>
                     </div>
@@ -35,6 +35,10 @@
         </div>
     </div>
 <script type="application/javascript">
+    var title_pie = <?php echo json_encode(trans('admin_messages.income_share'))?>;
+    var title_bar = <?php echo json_encode(trans('admin_messages.rec_income_share_eur'))?>;
+    var xAxis_bar = <?php echo json_encode(trans('admin_messages.source_of_income'))?>;
+    
     var participation_profit  = <?php echo $participation_profit?>;
     var article_profit = <?php echo $article_profit?>;
     var material_profit = <?php echo $material_profit?>;
@@ -48,7 +52,7 @@
             type: 'pie'
         },
         title: {
-            text: 'Profit share'
+            text: title_pie
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -94,11 +98,11 @@
               type: 'column'
             },
             title: {
-                text: 'Potential profit (EUR)'
+                text: title_bar
             },
             xAxis: {
                 title: {
-                    text: 'Source of income'
+                    text: xAxis_bar
                 },
                 labels: {
                 enabled: false
