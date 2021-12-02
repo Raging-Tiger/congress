@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <h4 class="list-group-item list-group-item-primary">MCRU</h4>
+                <h4 class="list-group-item list-group-item-primary">Article dashboard</h4>
                 <div class="card-body">
                     @php
                         $index = 1;
@@ -35,7 +35,8 @@
                                 {{ Form::close() }}
                                 
                             @endif
-
+                        @elseif(Auth::user()->isArticleService($event->id))
+                            The bill is not paid
                         @else
                             You are registrated only for participation
                         @endif

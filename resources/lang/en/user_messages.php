@@ -23,6 +23,16 @@ return [
     'register' => 'Register',
     'already_registred' => 'You are already registred for the event',
     'bills' => 'Bills',
+    'commercial_not_allowed' => 'Commercial users cannot participate in conferences',
+    'event_type' => 'Event type',
+    'starting_day' => 'Starting day of the event',
+    'ending_day' => 'Ending day of the event',
+    'registration_till' => 'Registration till',
+    'event_info' => 'Event information',
+    'download_invoice' => 'Download invoice',
+    'upload_payment' => 'Upload payment',
+    'download' => 'Download',
+    'articles' => 'Articles',
     
 ];
 

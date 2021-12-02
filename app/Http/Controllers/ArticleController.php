@@ -18,18 +18,18 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //$eligible_events = Event::where('event_type_id', 3)->pluck('id')->toArray();
-        $eligible_events = Bill::where('user_id', auth()->user()->id)
-                //->where('total_cost_per_articles', '!=', NULL)
-                //->where('bill_status_id', 2)
-                ->join('events', 'bills.event_id', '=', 'events.id')
-                ->where('end_date', '>=', Carbon::today())
-                ->where('event_type_id', '!=', 2)
-                ->pluck('bills.id')->toArray();
+    {   if(auth()->user()->roles->id != 2)
+        {
+            return;
+        }
+        $events = UserEvent::where('user_events.user_id', auth()->user()->id)
+                ->join('events', 'user_events.event_id', '=', 'events.id')
+                ->where('event_type_id', '!=', 2)->paginate(5);
+        
+
         
         
-        $events = UserEvent::where('user_id', auth()->user()->id)->whereIn('event_id', $eligible_events)->paginate(5);
+       // $events = UserEvent::where('user_id', auth()->user()->id)->whereIn('event_id', $eligible_events)->paginate(5);
         $events_ids = $events->pluck('id');
         $acceptance = array();
         foreach($events_ids as $id)
@@ -51,9 +51,18 @@ class ArticleController extends Controller
     
     public function uploadArticle($id) 
     {
+        if(Event::where('id', '=', $id)->exists() && 
+                UserEvent::where('event_id', '=', $id)
+                ->where('user_id', auth()->user()->id)
+                ->exists() && auth()->user()->isPaidArticle($id))
+        {
+            
+        
         $existing_article = Article::where('event_id', '=', $id)->where('user_id', '=', auth()->user()->id)->first();
 
         return view('articles/article_submission', ['event' => Event::where('id', $id)->first(), 'article' => $existing_article]);
+        }
+        
     }
     
      public function storeArticle(Request $request)

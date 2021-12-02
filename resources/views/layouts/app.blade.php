@@ -72,7 +72,7 @@
                                         <a class="nav-link" href="/events/manage">{{ __('admin_messages.manage_events') }}</a>
                                     </div>
                             </li>
-                            
+                            <li><a class="nav-link" href="/bills/manage">{{ __('admin_messages.manage_bills') }}</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ __('admin_messages.billing_plans') }}</a>
                                     <div class="dropdown-menu">

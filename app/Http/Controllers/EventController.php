@@ -153,32 +153,33 @@ class EventController extends Controller
      */
     public function storeRegistration(Request $request, $id)
     {
-        UserEvent::create([
-                'user_id' => auth()->user()->id,
-                'event_id' => $id,
-            ]);
         
-        /* Bill creation upon registration for the event - for private user */
-        if($request->has('cost_per_participation') || $request->has('cost_per_article')) {
-            
+        $rules = array(
+            'participation' => 'required',
+        );        
+        $this->validate($request, $rules);
+        
+        $cost_per_participation = isset($request->participation[0]) ? $request->participation[0] : NULL;
+        $cost_per_article = isset($request->participation[1]) ? $request->participation[1] : NULL;
+        $cost_per_material = isset($request->participation[2]) ? $request->participation[2] : NULL;
+        
+        if(!Bill::where('user_id', auth()->user()->id)->where('event_id', $id)->exists())
+        {
+            UserEvent::create([
+                    'user_id' => auth()->user()->id,
+                    'event_id' => $id,
+                ]);
+
             Bill::create([
-                'total_cost_per_articles' => $request->cost_per_article,
-                'total_cost_per_participation' => $request->cost_per_participation,
+                'total_cost_per_articles' => $cost_per_article,
+                'total_cost_per_participation' => $cost_per_participation,
+                'total_cost_per_materials' => $cost_per_material,
                 'user_id' => auth()->user()->id,
                 'event_id' => $id,
                 'bill_status_id' => BILL_STATUS_SENT,
             ]);
         } 
-        
-        /* Bill creation upon registration for the event - for commercial user */
-        else {
-            Bill::create([
-                'total_cost_per_materials' => $request->cost_per_material,
-                'user_id' => auth()->user()->id,
-                'event_id' => $id,
-                'bill_status_id' => BILL_STATUS_SENT,
-            ]);
-        }
+
         return redirect()->action('App\Http\Controllers\BillController@index');
     }
 

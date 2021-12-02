@@ -116,6 +116,14 @@ class User extends Authenticatable
                 ->exists());
     }
     
+    public function isArticleService($eventId) {
+        return (Bill::where('event_id', '=', $eventId)
+                ->where('user_id', '=', $this->id)
+                ->where('bill_status_id', '!=', 2)
+                ->where('total_cost_per_articles', '!=', NULL)
+                ->exists());
+    }
+    
     public function hasArticle($eventId) {
         return (Article::where('event_id', '=', $eventId)
                 ->where('user_id', '=', $this->id)

@@ -6,7 +6,7 @@
      <div class="row">
         <div class="col-md-12">       
                     <div class="card">
-                        <h4 class="list-group-item list-group-item-primary">{{$event->name}}</h4>
+                        <h4 class="list-group-item list-group-item bg-primary text-white">{{$event->name}}</h4>
                         <div class="card-body">
                            
                             <div class="float-right">
@@ -24,12 +24,12 @@
                                 @endif
                             </div>
                                 
-                            <h5 class="card-title"><b>Event type: </b>{{$event->eventTypes->name}}</h5> 
-                            <h5><b>Starting day of the event: </b>{{date('d-m-Y', strtotime($event->start_date))}}</h5> 
-                            <h5><b>Ending day of the event: </b>{{date('d-m-Y', strtotime($event->end_date))}}</h5> 
-                            <h5><b>Registration till: </b>{{date('d-m-Y', strtotime($event->registration_until))}}</h5> 
+                            <h5 class="card-title"><b>{{__('user_messages.event_type')}}: </b>{{$event->eventTypes->name}}</h5> 
+                            <h5><b>{{__('user_messages.starting_day')}}: </b>{{date('d-m-Y', strtotime($event->start_date))}}</h5> 
+                            <h5><b>{{__('user_messages.ending_day')}}: </b>{{date('d-m-Y', strtotime($event->end_date))}}</h5> 
+                            <h5><b>{{__('user_messages.registration_till')}}: </b>{{date('d-m-Y', strtotime($event->registration_until))}}</h5> 
                                 
-                            <p> Event information: </p>
+                            <p> {{__('user_messages.event_info')}}: {!! nl2br(e($event->info)) !!}</p>
                                 
                                        
                         </div>

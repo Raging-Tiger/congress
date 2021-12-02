@@ -52,4 +52,10 @@ class Event extends Model
 
     }
     
+    public function isRegistred($id){
+        return (UserEvent::where('event_id', '=', $this->id)
+                ->where('user_id', '=', $id)->exists());
+
+    }
+    
 }
