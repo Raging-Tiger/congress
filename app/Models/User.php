@@ -102,6 +102,10 @@ class User extends Authenticatable
         return ($this->role_id == 3);
     } 
     
+    public function isParticipant() {
+        return ($this->role_id == 2 || $this->role_id == 3);
+    } 
+    
     /* Registration for current event checking request */
     public function isRegistred($id) {
         return (UserEvent::where('event_id', '=', $id)->where('user_id', '=', $this->id)->exists());

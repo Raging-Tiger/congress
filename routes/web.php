@@ -15,7 +15,7 @@ use App\Http\Controllers\LanguageController;
 */
 
 /* Main page (index) route */
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middleware('blocked');
 
 
 Auth::routes();
@@ -39,7 +39,7 @@ Route::get('/lang/{locale}', LanguageController::class);
 Route::get('/events/create', [App\Http\Controllers\EventController::class, 'create']);
 Route::post('/events/create', [App\Http\Controllers\EventController::class, 'create']);
 Route::match(['get', 'post'],'/events/added', [App\Http\Controllers\EventController::class, 'store']);
-Route::get('/events', [App\Http\Controllers\EventController::class, 'index']);
+Route::get('/events', [App\Http\Controllers\EventController::class, 'index'])->middleware('blocked');
 Route::get('/events/manage', [App\Http\Controllers\EventController::class, 'admin_index']);
 Route::get('/events/{id}', [App\Http\Controllers\EventController::class, 'show']);
 Route::match(['get', 'post'],'/events/{id}/register', [App\Http\Controllers\EventController::class, 'register']);

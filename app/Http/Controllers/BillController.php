@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
 {
+    public function __construct() {
+       
+        $this->middleware('admin')->only(['adminIndex', 'displayPayment', 'edit', 'update']);
+    
+        $this->middleware('participant')->only(['index', 'downloadInvoice', 'uploadConfirmation']);
+    }  
+    
     /**
      * Display a listing of the resource.
      *
@@ -100,6 +107,11 @@ class BillController extends Controller
     public function edit($id)
     {
         $bill = Bill::where('id', $id)->first();
+        
+        if($bill == NULL)
+        {
+            abort(404);
+        }
         
         $statuses = BillStatus::all();
         $statuses_list = $statuses->pluck('name', 'id');

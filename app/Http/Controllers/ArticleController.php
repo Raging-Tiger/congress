@@ -12,24 +12,21 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class ArticleController extends Controller
 {
+    public function __construct() {
+    
+        $this->middleware('private')->only(['index', 'uploadArticle', 'storeArticle']);
+    } 
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   if(auth()->user()->roles->id != 2)
-        {
-            return;
-        }
-        $events = UserEvent::where('user_events.user_id', auth()->user()->id)
-                ->join('events', 'user_events.event_id', '=', 'events.id')
-                ->where('event_type_id', '!=', 2)->paginate(5);
-        
+    {           
+        $user_conferences = Bill::where('user_id', auth()->user()->id)->where('total_cost_per_articles', '!=', NULL)->pluck('event_id');     
+        $events = Event::whereIn('id', $user_conferences)->paginate(3);
 
-        
-        
-       // $events = UserEvent::where('user_id', auth()->user()->id)->whereIn('event_id', $eligible_events)->paginate(5);
         $events_ids = $events->pluck('id');
         $acceptance = array();
         foreach($events_ids as $id)
@@ -66,7 +63,20 @@ class ArticleController extends Controller
     }
     
      public function storeArticle(Request $request)
-    {
+    { 
+        if(!($request->has('title')))
+        {
+            abort(403);
+        }
+        $rules = array(
+            'title' => 'required',
+            'co_authors' => 'required',
+            'abstract' => 'required',
+            'article' => 'required|mimes:docx,doc',
+        );    
+        $this->validate($request, $rules); 
+
+        
         $event_name = Event::where('id', $request->event_id)->first('name');
         $folder_name = str_replace(' ', '_', strtolower($event_name->name));
         $received_articles_path = '/public/articles/' . $folder_name.'/received';
@@ -115,69 +125,5 @@ class ArticleController extends Controller
         return redirect()->action('App\Http\Controllers\ArticleController@index');       
     }
     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

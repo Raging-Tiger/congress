@@ -51,9 +51,10 @@
         </div>
      </div>
 </div>
-<script> 
+<script type="application/javascript"> 
+var message = <?php echo json_encode(trans('admin_messages.delete_notification_warning'))?>;
 function ConfirmDelete() {
-    var confirmation = confirm('admin_messages.delete_notification_warning');
+    var confirmation = confirm(message);
     if(confirmation === true)
     {
         return true;

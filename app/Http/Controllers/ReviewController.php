@@ -14,8 +14,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $articles = Article::where('article_status_id', '!=', 3)
-                ->where('article_status_id', '!=', 4)->get();
+        $articles = Article::orderBy('id', 'desc')->paginate(25);
         return view('articles/reviewer', ['articles' => $articles]);
     }
 

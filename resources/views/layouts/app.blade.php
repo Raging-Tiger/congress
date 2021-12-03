@@ -58,7 +58,7 @@
                         @endif
                             
                         @if ( !Auth::guest() && Auth::user()->isReviewer() )
-                            <a class="nav-link" href="/review">Reviewer dashboard</a>
+                            <a class="nav-link" href="/review">{{ __('user_messages.reviewer_dashboard') }}</a>
                         @endif
                         {{-- Admin part of Navbar --}}
                         

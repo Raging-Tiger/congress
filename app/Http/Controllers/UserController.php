@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+     public function __construct() {
+       
+        $this->middleware('admin')->only(['index', 'search', 'edit', 'update']);
+    } 
     /**
      * Display a listing of the resource.
      *

@@ -5,46 +5,63 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <h4 class="list-group-item list-group-item-primary">Article dashboard</h4>
-                <div class="card-body">
+                <div class="card-header">{{__('user_messages.article_dashboard')}}</div>
                     @php
                         $index = 1;
                     @endphp
-                    @foreach ($events as $event)
-                        <h4>{{$event->events->name}}</h4>
-                        @php echo('<div class="acceptance_chart_container" id="'.$index.'"></div>'); @endphp
-                           
-                            @php
-                                $index++;
-                            @endphp
-                        <div class="form-group">
-                        @if(Auth::user()->isPaidArticle($event->id))
-                           
-                           You can upload the article. Please notice, that all articles will go through a review. 
-                           {{ Form::open(['action' => ['App\Http\Controllers\ArticleController@uploadArticle', $event->id]]) }}
-                                {{ Form::submit(('Upload article'), ['class' => 'btn btn-primary'])}}
-                            {{ Form::close() }}
-                            
-                            @if($event->events->article_curr(Auth::user()->id))
-                                Status: {{$event->events->article_curr(Auth::user()->id)->articleStatuses->name}}
-                                <br>
-                                Review is available
-                                <br>
-                                {{ Form::open(['action' => ['App\Http\Controllers\ReviewController@downloadReview', $event->events->article_curr(Auth::user()->id)->id], 'target' => '_blank']) }}
-                                    {{ Form::submit(('Download review'), ['class' => 'btn btn-primary'])}}
-                                {{ Form::close() }}
-                                
-                            @endif
-                        @elseif(Auth::user()->isArticleService($event->id))
-                            The bill is not paid
-                        @else
-                            You are registrated only for participation
-                        @endif
-                        </div>
                     
+                    @foreach ($events as $event)
+                        <h4 class="list-group-item list-group-item bg-primary text-white">{{$event->name}}</h4>
+                        <div class="card-body">
+                            <div class="float-right" style="width: 50%;">@php echo('<div class="acceptance_chart_container" id="'.$index.'"></div>'); @endphp</div>
+
+                                @php
+                                    $index++;
+                                @endphp
+                               
+                            <div class="form-group">
+                                <div class="float-left">
+                                    @if(Auth::user()->isPaidArticle($event->id))
+                                            @if($event->end_date >= Carbon\Carbon::now())
+                                                @if(!($event->article_curr(Auth::user()->id)) || 
+                                                     $event->article_curr(Auth::user()->id)->article_status_id == 1 || 
+                                                     $event->article_curr(Auth::user()->id)->article_status_id == 5)
+
+                                                    <p>{{__('user_messages.upload_article_message')}}.</p>
+                                                    {{ Form::open(['action' => ['App\Http\Controllers\ArticleController@uploadArticle', $event->id]]) }}
+                                                        {{ Form::submit((__('user_messages.upload_article')), ['class' => 'btn btn-primary'])}}
+                                                    {{ Form::close() }}
+
+                                                @endif
+                                            @else
+                                                <p>{{__('user_messages.submission_ended')}}</p>
+                                            @endif
+                                        
+                                        @if($event->article_curr(Auth::user()->id))
+                                         <p>{{__('user_messages.article_uploaded')}}</p>
+                                            @if($event->article_curr(Auth::user()->id)->reference || $event->article_curr(Auth::user()->id)->review_reference)
+                                                <p>{{__('user_messages.status')}}: {{$event->article_curr(Auth::user()->id)->articleStatuses->name}}</p>
+                                            @endif
+
+                                            
+                                            @if($event->article_curr(Auth::user()->id)->review_reference)
+
+                                                <p>{{__('user_messages.review_available')}}.</p>
+                                                
+                                                {{ Form::open(['action' => ['App\Http\Controllers\ReviewController@downloadReview', $event->article_curr(Auth::user()->id)->id], 'target' => '_blank']) }}
+                                                    {{ Form::submit((__('user_messages.download_review')), ['class' => 'btn btn-primary'])}}
+                                                {{ Form::close() }}     
+                                            @endif
+                                        @endif
+                                    @elseif(Auth::user()->isArticleService($event->id))
+                                            <p>{{__('user_messages.not_paid')}}.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                     @endforeach
-                    {!!$events->links()!!}
-                </div>
+                    {!!$events->links()!!}              
             </div>
         </div>
     </div>    

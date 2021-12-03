@@ -10,6 +10,10 @@ use Redirect;
 use Session;
 class NotificationController extends Controller
 {
+    public function __construct() {
+    
+        $this->middleware('admin');
+    } 
     /**
      * Display a listing of the resource.
      *

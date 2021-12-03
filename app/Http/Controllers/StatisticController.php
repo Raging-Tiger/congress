@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticController extends Controller
 {
+    public function __construct() {
+        $this->middleware('admin');
+    }
+    
+    
     public function index()
     {
         return view('statistics/statistic_index');

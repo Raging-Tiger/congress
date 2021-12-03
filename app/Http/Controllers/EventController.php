@@ -17,6 +17,16 @@ define('BILL_STATUS_SENT', 1);
 
 class EventController extends Controller
 {
+    
+    public function __construct() {
+       
+        $this->middleware('admin')->only(['admin_index', 'create', 'store', 'edit', 
+                                          'update', 'destroy', 'downloadParticipantList']);
+    
+        $this->middleware('participant')->only(['show', 'register', 'storeRegistration']);
+    } 
+    
+    
     /**
      * Display a listing of all events to users.
      *
