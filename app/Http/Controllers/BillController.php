@@ -41,6 +41,10 @@ class BillController extends Controller
     {
         
         $bill = Bill::where('id', $id)->first();
+        if($bill == NULL)
+        {
+            abort(404);
+        }
        // dd($request->bill_id);
         $event_name = $bill->events->name;
         $folder_name = str_replace(' ', '_', strtolower($event_name));
@@ -53,6 +57,10 @@ class BillController extends Controller
         {
             return response()->file($path);
 
+        }
+        else
+        {
+            abort(404);
         }
     }
     

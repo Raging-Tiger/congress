@@ -76,9 +76,16 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $roles;
+
+        $user = User::where('id', $id)->first();
         
-        if(User::where('id', $id)->first()->name_id == NULL)
+        if($user == NULL)
+        {
+            abort(404);
+        }
+        
+        $roles;
+        if($user->name_id == NULL && $user->role_id != 1)
         {
             $roles = Role::where('id', 3)->orWhere('id', 5)->get();
         }
@@ -88,9 +95,7 @@ class UserController extends Controller
         }
 
         $roles_list = $roles->pluck('name', 'id');
-        
-        
-        $user = User::where('id', $id)->first();
+
         return view('users/admin_edit_user', ['user' => $user, 'roles' => $roles_list]);
 
     }

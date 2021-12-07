@@ -56,7 +56,7 @@ return [
     'upload_review' => 'Upload review',
     'edit_status' => 'Edit status',
     'error' => 'Error',
-    
+    'materials' => 'Materials',
 ];
 
 

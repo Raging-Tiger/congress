@@ -93,3 +93,7 @@ Route::match(['get', 'post'],'/statistics/acceptance', [App\Http\Controllers\Sta
 Route::match(['get', 'post'],'/statistics/tax', [App\Http\Controllers\StatisticController::class, 'taxChart']);
 Route::match(['get', 'post'],'/statistics/income', [App\Http\Controllers\StatisticController::class, 'incomeChart']);
 Route::match(['get', 'post'],'/statistics/users', [App\Http\Controllers\StatisticController::class, 'usersChart']);
+
+Route::match(['get', 'post'], '/materials', [App\Http\Controllers\MaterialController::class, 'index']);
+Route::match(['get', 'post'], '/upload_material', [App\Http\Controllers\MaterialController::class, 'upload']);
+Route::match(['get', 'post'], '/events/materials/{id}', [App\Http\Controllers\MaterialController::class, 'show']);

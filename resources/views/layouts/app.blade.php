@@ -37,6 +37,11 @@
                     {{-- User part of Navbar. Is seen only by Private ro Commercial users --}}
 
                     <ul class="navbar-nav mr-auto">
+                        @if(Auth::guest())
+                            <li><a class="nav-link" href="/events">{{ __('user_messages.all_events') }}</a></li>
+                        @endif
+                        
+                        
                         @if ( !Auth::guest() && !Auth::user()->isBlocked() && (Auth::user()->isPrivate() || Auth::user()->isCommercial()))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" href="/events">{{ __('user_messages.events') }}</a>
@@ -53,8 +58,12 @@
                             
                         </li>
                         <li><a class="nav-link" href="/bills">{{ __('user_messages.bills') }}</a></li>
-                        <li><a class="nav-link" href="/articles">{{ __('user_messages.articles') }}</a></li>
-
+                            @if ( !Auth::guest() && Auth::user()->isPrivate())
+                                <li><a class="nav-link" href="/articles">{{ __('user_messages.articles') }}</a></li>
+                            @endif
+                            @if ( !Auth::guest() && Auth::user()->isCommercial())
+                            <li><a class="nav-link" href="/materials">{{ __('user_messages.materials') }}</a></li>
+                        @endif
                         @endif
                             
                         @if ( !Auth::guest() && Auth::user()->isReviewer() )

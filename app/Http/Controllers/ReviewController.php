@@ -7,6 +7,11 @@ use App\Models\Article;
 use App\Models\ArticleStatus;
 class ReviewController extends Controller
 {
+    public function __construct() {
+       
+        $this->middleware('reviewer')->only(['index', 'downloadArticle', 'uploadReview', 'edit', 'update']);
+        $this->middleware('private')->only(['downloadReview']);
+    } 
     /**
      * Display a listing of the resource.
      *
@@ -45,8 +50,11 @@ class ReviewController extends Controller
     
     public function downloadReview($id)
     {
-        $article = Article::where('id', '=', $id)->first();
-
+        $article = Article::where('id', '=', $id)->where('user_id', '=', auth()->user()->id)->first();
+        if($article == NULL)
+        {
+            abort(403);
+        }
         $reference = $article->review_reference;
         $storagePath  = \Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
         $folder_name = str_replace(' ', '_', strtolower($article->events->name)); 
@@ -57,13 +65,22 @@ class ReviewController extends Controller
         {
             return response()->file($received_articles_path);
 
-        }    
+        }
+        else
+        {
+            abort(404);
+        }
         
     }
 
     public function uploadReview(Request $request)
     {
         $article = Article::where('id', '=', $request->article_id)->first();
+        if($article == NULL)
+        {
+            abort(404);
+        }
+        
         $event_name = $article->events->name;
         $reference = 'review_'.$article->reference;
         $folder_name = str_replace(' ', '_', strtolower($event_name));
@@ -113,9 +130,15 @@ class ReviewController extends Controller
      */
     public function edit($id)
     {
+        $article = Article::where('id', '=', $id)->first();
+        if($article == NULL)
+        {
+            abort(404);
+        }
+        
         $article_statuses = ArticleStatus::all();
         $statuses_list = $article_statuses->pluck('name', 'id');
-        $article = Article::where('id', '=', $id)->first();
+        
         return view('articles/reviewer_edit', ['article' => $article, 'statuses' => $statuses_list]);
     }
 
@@ -129,6 +152,11 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $article = Article::where('id', '=', $id)->first();
+        if($article == NULL)
+        {
+            abort(404);
+        }
+        
         $article->article_status_id = $request->status;
         
         

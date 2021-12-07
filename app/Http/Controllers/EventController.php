@@ -126,6 +126,12 @@ class EventController extends Controller
            Storage::makeDirectory($accepted_articles_path);
         }
         
+        if($event_type_id == 2 || $event_type_id == 3)
+        {
+           $materials_path = '/public/materials/' . $folder_name;
+           Storage::makeDirectory($materials_path);
+        }
+        
         return redirect()->action('App\Http\Controllers\EventController@admin_index');
     }
 
@@ -138,6 +144,11 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::where('id', '=', $id)->first();
+        if($event == NULL)
+        {
+            abort(404);
+        }
+        
         return view('events/event', ['event' => $event,
                                      'id' => $id]);
     }
@@ -152,6 +163,10 @@ class EventController extends Controller
     public function register($id)
     {
         $event = Event::where('id', '=', $id)->first();
+        if($event == NULL)
+        {
+            abort(404);
+        }
         return view('events/event_registration', ['event' => $event]);
     }
     
@@ -201,12 +216,17 @@ class EventController extends Controller
      */
     public function edit($id)
     {
+        $event = Event::where('id', '=', $id)->first();
+        if($event == NULL)
+        {
+            abort(404);
+        }
         $billing_plans = BillingPlan::all();
         $billing_plans_list = $billing_plans->pluck('name', 'id');
 
         $event_types = EventType::all()->take(2);
         
-        $event = Event::where('id', '=', $id)->first();
+        
         return view('events/edit_event', ['event' => $event,
                                           'event_types' => $event_types, 
                                           'billing_plans' => $billing_plans_list,

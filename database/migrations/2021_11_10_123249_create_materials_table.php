@@ -15,8 +15,6 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->text('header');
-            $table->text('message');
             $table->text('reference');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('event_id')->constrained();

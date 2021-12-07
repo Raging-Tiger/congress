@@ -9,13 +9,19 @@ class Material extends Model
 {
     use HasFactory;
     
+    protected $fillable = [
+        'reference',
+        'user_id',
+        'event_id',
+    ];
+    
     public $timestamps = false;
     
     public function users() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
     
     public function events() {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class, 'event_id');
     } 
 }

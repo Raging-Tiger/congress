@@ -72,6 +72,10 @@ class BillingPlanController  extends Controller
     public function edit($id)
     {
         $billing_plan = BillingPlan::where('id', $id)->first();
+        if($billing_plan == NULL)
+        {
+            abort(404);
+        }
         
         return view('bills/edit_billing_plan', ['billing_plan' => $billing_plan]);
 

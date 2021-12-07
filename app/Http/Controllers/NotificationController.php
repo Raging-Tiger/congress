@@ -90,9 +90,18 @@ class NotificationController extends Controller
      */
     public function edit($id)
     {
-        $notification_types = NotificationType::all();
-        $notification_types_list = $notification_types->pluck('name', 'id');
         $notification = Notification::where('id', $id)->first();
+        if($notification == NULL)
+        {
+            abort(404);
+        }
+            
+        $notification_types = NotificationType::all();
+        
+        
+        
+        $notification_types_list = $notification_types->pluck('name', 'id');
+        
       
         $languages = Language::all()->pluck('name', 'id');
 

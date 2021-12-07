@@ -59,6 +59,11 @@ class ArticleController extends Controller
 
         return view('articles/article_submission', ['event' => Event::where('id', $id)->first(), 'article' => $existing_article]);
         }
+        else
+        {
+            abort(404);
+        }
+        
         
     }
     

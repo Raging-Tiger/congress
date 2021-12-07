@@ -34,7 +34,7 @@ class Event extends Model
     }
     
     public function materials(){
-        return $this->hasMany(Material::class);
+        return $this->hasMany(Material::class, 'material_id');
     }
     
     public function bills(){
@@ -55,6 +55,13 @@ class Event extends Model
     public function isRegistred($id){
         return (UserEvent::where('event_id', '=', $this->id)
                 ->where('user_id', '=', $id)->exists());
+
+    }
+    
+    public function material_curr($id){
+        
+        return (Material::where('event_id', '=', $this->id)
+                ->where('user_id', '=', $id)->first());
 
     }
     
