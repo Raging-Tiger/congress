@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('content')
+
+{{-- Received: $bill, $statuses --}}
+{{-- Pass: status --}}
 <div class="container">
-    
    <div div class="row">
     <table class="table table-responsive-sm table-bordered">
         <tr>
@@ -9,6 +11,7 @@
             <td>{{$bill->id}}</td>
         </tr>
         <tr>
+            {{-- Only company name or full name can be at a time --}}
             <td> Customer </td>
             <td>{{$bill->users->roles->name}}: 
                 {{$bill->users->companies->name ?? $bill->users->fullNames->name.' '.$bill->users->fullNames->surname}}
@@ -53,6 +56,8 @@
             <div class="card">
                 <h4 class="list-group-item list-group-item bg-primary text-white">{{__('admin_messages.edit_bill_status')}}</h4>
                 <div class="card-body">
+                    
+                    {{-- Form for changing bill status --}}
                     {{ Form::open(['action' => ['App\Http\Controllers\BillController@update', $bill->id]]) }}
                     <div class="form-group">
                         
@@ -64,6 +69,7 @@
                                     </div>
                                 @endif
                     </div>
+                        {{-- Submit form --}}
                         {{ Form::submit((__('admin_messages.apply')), ['class' => 'btn btn-primary']) }}
                     {{ Form::close() }}
                 </div>

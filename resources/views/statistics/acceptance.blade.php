@@ -1,6 +1,9 @@
 @extends('layouts.app_statistics')
 @section('content')
 <script src="https://code.highcharts.com/highcharts.js"></script>
+    
+{{-- Received: $events, $event_id, $accepted_articles, $declined_articles, $not_processed, $under_review  --}}
+{{-- Pass: event --}}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -8,6 +11,7 @@
                 <div class="card">
                     <div class="card-body">
                        
+                            {{-- Select event - drop-down list --}}
                             <div class="form-group">
                                 {{ Form::open(['action' => ['App\Http\Controllers\StatisticController@acceptanceChart']]) }}
                                      {{ Form::label('event', __('admin_messages.select_event'), ['class' => 'control-label']) }}
@@ -24,6 +28,8 @@
                     </div>
                     <div class="card-header">{{__('admin_messages.article_acceptance_rate')}}</div>
                     <div class="card-body">
+                        
+                        {{-- Chart container --}}
                         <div id="acceptance_chart_container"></div>
                     </div>
              
@@ -32,13 +38,17 @@
         </div>
     </div>
 <script type="application/javascript">
+
+    //Localization of name of the chart
     var title = <?php echo json_encode(trans('admin_messages.article_acceptance_rate_title'))?>;
     
+    //Chart data
     var accepted_articles  = <?php echo $accepted_articles?>;
     var declined_articles = <?php echo $declined_articles?>;
     var not_processed = <?php echo $not_processed?>;
     var under_review = <?php echo $under_review?>;
-    
+
+//Render chart
 Highcharts.chart('acceptance_chart_container', {
     chart: {
         plotBackgroundColor: null,

@@ -17,6 +17,8 @@ class Notification extends Model
         'language_id',
     ];
     
+    /* Eloquent relations definition */
+    
     public function languages(){
         return $this->belongsTo(Language::class, 'language_id');
     }

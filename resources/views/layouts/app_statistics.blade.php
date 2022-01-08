@@ -116,7 +116,10 @@
         <div class="row">
             <div id="wrapper">
                 <div id="sidebar-wrapper">
+                    
+                    <!-- Side-bar menu -->
                     <ul class="sidebar-nav" style="margin-left:0;">
+
                         <li class="sidebar-brand">
                                 <a href="#menu-toggle"  id="menu-toggle" style="margin-top:20px;float:right;" > <i class="fa fa-bars " style="font-size:20px !Important;" aria-hidden="true" aria-hidden="true"></i></a>
                         </li>

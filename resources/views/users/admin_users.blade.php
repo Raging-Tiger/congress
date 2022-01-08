@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <script type="application/javascript">
+// AJAX user search
 $(document).ready(function () {
     $("#search").keyup(function () {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -25,6 +26,7 @@ $(document).ready(function () {
                     company_name = '-';
                 }
                 
+                //Create HTML table row filled with necessary data
                 var row_content = '<tr><td>'  + spec.id + 
                                   '</td><td>' + spec.login +
                                   '</td><td>' + spec.email +
@@ -43,7 +45,11 @@ $(document).ready(function () {
 });
 </script>
 
+{{-- Received: $users, AJAX search query --}}
+{{-- Pass: search --}}
 <div class="container">
+    
+    {{-- AJAX seach form, submit disabled --}}
     <div>
         {{ Form::label('search', __('admin_messages.search'), ['class' => 'control-label']) }}
         {{ Form::open(['onsubmit' => 'return false;']) }}    
@@ -71,6 +77,8 @@ $(document).ready(function () {
                     <td>{{$user->fullNames->title ?? ''}} {{$user->fullNames->name ?? '-'}} {{$user->fullNames->surname ?? ''}}</td>
                     <td>{{$user->companies->name ?? '-'}}</td>
                     <td>{{$user->roles->name}}</td>
+                    
+                    {{-- Edit user role --}}
                     <td> 
                         {{ Form::open(['action' => ['App\Http\Controllers\UserController@edit', $user->id]]) }}
                             {{ Form::submit((__('admin_messages.edit')), ['class' => 'btn btn-primary'])}}
@@ -82,6 +90,7 @@ $(document).ready(function () {
            
         </table>
         
+        {{-- Pagination --}}
         {!!$users->links()!!}
     </div>
 </div>

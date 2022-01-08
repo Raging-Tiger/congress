@@ -17,6 +17,8 @@ class Material extends Model
     
     public $timestamps = false;
     
+    /* Eloquent relations definition */
+    
     public function users() {
         return $this->belongsTo(User::class, 'user_id');
     }

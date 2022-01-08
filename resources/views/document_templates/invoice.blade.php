@@ -4,6 +4,8 @@
     <!-- Styles -->
     <link href="{{ asset('/css/invoice.css') }}" rel="stylesheet">
 </head>
+
+{{-- Received: $bill --}}
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -57,6 +59,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{-- Row number counter --}}
                                     @php
                                         $counter = 1;
                                     @endphp
@@ -135,6 +138,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2"></td>
+                                        {{-- VAT calculation --}}
                                         <td colspan="2">VAT 21%</td>
                                         @php
                                                 $tax = number_format($total_without_tax * 0.21, 2, '.', ' ');
@@ -162,7 +166,6 @@
                         </main>
                         <footer>Invoice was created electronically and is valid without the signature and seal.</footer>
                     </div>
-                    <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
                     <div></div>
                 </div>
             </div>

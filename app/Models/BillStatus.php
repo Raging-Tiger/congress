@@ -12,6 +12,8 @@ class BillStatus extends Model
     
     public $timestamps = false;
     
+    /* Eloquent relations definition */
+    
     public function bills(){
         return $this->hasMany(Bill::class);
     }

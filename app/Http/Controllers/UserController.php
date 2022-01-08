@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+     /**
+     * Middleware, setting access control for specified function.
+     */
      public function __construct() {
        
         $this->middleware('admin')->only(['index', 'search', 'edit', 'update']);
     } 
     /**
-     * Display a listing of the resource.
+     * Display a listing of all users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,10 +27,15 @@ class UserController extends Controller
         return view('users/admin_users', ['users' => $users]);
     }
 
+    /**
+     * AJAX users search in the database by name, surname, company name or nickname.
+     *
+     * @param  $request - search query.
+     * @return DB query.
+     */
     public function search(Request $request)
     {
-           //dd($users);
-
+        /* If query is not empty - avoiding of returning all data */
         if($request->get('search')!= NULL)
         {
             return DB::table('users')
@@ -45,53 +53,35 @@ class UserController extends Controller
         }        
     
     }
-
+    
     /**
-     * Store a newly created resource in storage.
+     * Show the form for editing user role.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id - corresponds to the database user ID entry.
+     * @return corresponing view.
      */
     public function edit($id)
     {
-
         $user = User::where('id', $id)->first();
         
+        /* If user not exists - abort */
         if($user == NULL)
         {
             abort(404);
         }
-        
+       
         $roles;
-        if($user->name_id == NULL && $user->role_id != 1)
+        
+        /* If user is not admin and if not private participant */
+        if($user->name_id == NULL && $user->role_id != ADMIN)
         {
-            $roles = Role::where('id', 3)->orWhere('id', 5)->get();
+            /* Can only have COMMERCIAL or BLOCKED role*/
+            $roles = Role::where('id', COMMERCIAL)->orWhere('id', BLOCKED)->get();
         }
         else
         {
-             $roles = Role::where('id', '!=' , 3)->get();
+            /* Can only have any role, but not COMMERCIAL*/
+             $roles = Role::where('id', '!=' , COMMERCIAL)->get();
         }
 
         $roles_list = $roles->pluck('name', 'id');
@@ -101,11 +91,11 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified user role in DB.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  $request from the form.
+     * @param  int  $id - corresponds to the database user ID entry.
+     * @return action UserController@index
      */
     public function update(Request $request, $id)
     {

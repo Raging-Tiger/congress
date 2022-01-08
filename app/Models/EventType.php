@@ -12,6 +12,8 @@ class EventType extends Model
     public $timestamps = false;
     protected $table = 'event_types';
     
+    /* Eloquent relations definition */
+    
     public function events(){
         return $this->hasMany(Event::class);
     }

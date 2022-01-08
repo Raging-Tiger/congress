@@ -46,7 +46,7 @@ return [
     'upload' => 'Upload',
     'article' => 'Article',
     'submission_ended' => 'Submission period ended',
-    'article_uploaded' => 'Ýou have uploaded article',
+    'article_uploaded' => 'You have uploaded article',
     'status' => 'Status',
     'edit_article_status_warning' => 'Are you sure you want to edit article status?',
     'reviewer_dashboard' => 'Reviewer dashboard',

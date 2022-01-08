@@ -11,6 +11,8 @@ class Role extends Model
    
     public $timestamps = false;
     
+    /* Eloquent relations definition */
+    
     public function users(){
         return $this->hasMany(User::class);
     }

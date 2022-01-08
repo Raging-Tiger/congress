@@ -1,9 +1,11 @@
 @extends('layouts.app')
 @section('content')
 
+{{-- Received: $billing_plans --}}
 <div class="container">
      <div class="row">
         <div class="col-md-12">
+            {{-- Error of deletion --}}
             @if($errors->any())
                 <div class="alert alert-danger">{{$errors->first()}}</div>
             @endif
@@ -18,6 +20,7 @@
                                 <h5>{{__('admin_messages.cost_per_material')}}: {{$billing_plan->cost_per_material}} EUR</h5>  
                                 <div class="float-left">
                                     <p>
+                                        {{-- If billing plan is used in any number of events - counts in how many --}}
                                         @if($billing_plan->events)
                                             {{__('admin_messages.used_in')}} 
                                             {{$billing_plan->events->count()}} 
@@ -40,6 +43,7 @@
 
                     </div>       
                 @endforeach
+                {{-- Pagination --}}
                 {!!$billing_plans->links()!!}
         </div>
      </div>

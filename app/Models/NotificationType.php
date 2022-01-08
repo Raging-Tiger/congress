@@ -11,6 +11,8 @@ class NotificationType extends Model
     
     public $timestamps = false;
     
+    /* Eloquent relations definition */
+    
     public function generalNotifications(){
         return $this->hasMany(Notification::class);
     }

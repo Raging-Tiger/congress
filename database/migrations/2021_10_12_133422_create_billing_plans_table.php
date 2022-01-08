@@ -15,7 +15,7 @@ class CreateBillingPlansTable extends Migration
     {
         Schema::create('billing_plans', function (Blueprint $table) {
             $table->id();
-            $table->string('name');   
+            $table->string('name', 255);   
             $table->decimal('cost_per_article', $precision = 8, $scale = 2); 
             $table->decimal('cost_per_participation', $precision = 8, $scale = 2);
             $table->decimal('cost_per_material', $precision = 8, $scale = 2);

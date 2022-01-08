@@ -16,6 +16,9 @@ class UserEvent extends Model
         'user_id',
         'event_id',
     ];
+    
+    /* Eloquent relations definition */
+    
     public function events() {
         return $this->belongsTo(Event::class, 'event_id');
     }  

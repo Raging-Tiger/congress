@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
+{{-- Received: $event, $billing_plans --}}
+{{-- Pass: event_name, start_date, end_date, registration_till, event_info, billing_plan, event_id --}}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -21,7 +23,11 @@
                             </div>
 
                             <div class="form-group">
-                                <div class="row"> 
+                                
+                                {{-- Row with 3 dates-chosing calendars --}}
+                                <div class="row">
+                                    
+                                    {{-- Event starting day, calendar, focused on TODAY, with attached errors displaying --}}
                                     <div class="col-md-4">
                                         {{ Form::label('start_date', __('admin_messages.start_date'), ['class' => 'control-label']) }}
                                         {{ Form::date('start_date', \Carbon\Carbon::parse($event->start_date)) }}
@@ -32,6 +38,7 @@
                                         @endif
                                     </div>
 
+                                    {{-- Event ending day, calendar, focused on TODAY, with attached errors displaying --}}
                                     <div class="col-md-4">
                                         {{ Form::label('end_date', __('admin_messages.end_date'), ['class' => 'control-label']) }}
                                         {{ Form::date('end_date', \Carbon\Carbon::parse($event->end_date)) }}
@@ -42,6 +49,7 @@
                                         @endif
                                     </div>
 
+                                    {{-- Event register till day, calendar, focused on TODAY, with attached errors displaying --}}
                                     <div class="col-md-4">
                                         {{ Form::label('registration_till', __('admin_messages.registration_till'), ['class' => 'control-label']) }}
                                         {{ Form::date('registration_till', \Carbon\Carbon::parse($event->registration_until)) }}
@@ -54,6 +62,7 @@
                                 </div>
                             </div>
                 
+                            {{-- Event information, scalable textbox, with attached errors displaying --}}
                             <div class="form-group">
                                 {{ Form::label('event_info', __('admin_messages.event_info'), ['class' => 'control-label']) }}
                                 {{ Form::textarea('event_info', $event->info, ['class' => 'form-control'])}}
@@ -64,6 +73,7 @@
                                 @endif
                             </div>
 
+                            {{-- Billing plans, drop-down list, with attached errors displaying. --}}
                             <div class="form-group">
                                        {{ Form::label('billing_plan', __('admin_messages.billing_plan'), ['class' => 'control-label']) }}
                                        {{ Form::select('billing_plan', $billing_plans, ['class' => 'form-control', 'placeholder' => $event->billing_plan_id])}}
@@ -73,7 +83,9 @@
                                             </div>
                                         @endif
                             </div>
+                            
                         {{ Form::hidden('event_id', $event->id) }}
+                        {{-- Submit form --}}
                         {{ Form::submit(__('admin_messages.apply'), ['class' => 'btn btn-primary']) }}
                         {{ Form::close() }}
                     </div>

@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+
+{{-- Received: $user, $roles --}}
+{{-- Pass: role --}}
 <div class="container">          
     <div div class="row">
         <table class="table table-responsive-sm table-bordered">
@@ -43,6 +46,8 @@
         <div class="col-md-12">
             <div class="card">
                 <h4 class="list-group-item list-group-item bg-primary text-white">{{__('admin_messages.edit_user_role')}}</h4>
+                
+                {{-- Form for editing user role (drop-down list) --}}
                 <div class="card-body">
                     {{ Form::open(['action' => ['App\Http\Controllers\UserController@update', $user->id]]) }}
                     <div class="form-group">
@@ -55,6 +60,8 @@
                                     </div>
                                 @endif
                     </div>
+                    
+                        {{-- Submit form --}}
                         {{ Form::submit(('Save changes'), ['class' => 'btn btn-primary']) }}
                     {{ Form::close() }}
                 </div>

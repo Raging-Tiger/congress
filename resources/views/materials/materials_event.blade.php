@@ -1,6 +1,24 @@
 @extends('layouts.app')
 @section('content')
 
+{{-- Carousel styling - dark controls and indicators --}}
+<style>
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  filter: invert(1);
+}
+
+.carousel .carousel-indicators li {
+  background-color: #fff;
+  background-color: rgba(70, 70, 70, 0.25);
+}
+
+.carousel .carousel-indicators .active {
+  background-color: #444;
+}
+</style>
+
+{{-- Received: $materials --}}
 <div class="container">
      <div class="row">
         <div class="col-md-12">       
@@ -23,6 +41,7 @@
                                          @php
                                             //dd('storage'.App\Http\Controllers\MaterialController::path($material->events->name).$material->reference);
                                          @endphp
+                                            {{-- Getting image from storage by path and reference --}}
                                             <img src="{{ url('storage'.App\Http\Controllers\MaterialController::path($material->events->name).$material->reference) }}" class="d-block w-100" alt="Not found">    
                                             <div class="carousel-caption d-none d-md-block">
                                               <h5 style="color:black;">{{$material->users->companies->name}}, {{$material->users->companies->country}}</h5>

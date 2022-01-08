@@ -17,6 +17,8 @@ class Name extends Model
         'title',
     ];
 
+    /* Eloquent relations definition */
+    
     public function users(){
         return $this->hasMany(User::class);
     }

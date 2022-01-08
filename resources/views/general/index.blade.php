@@ -1,12 +1,24 @@
 @extends('layouts.app')
-
 @section('content')
 
+{{-- Received: $publics, $private --}}
 <div class="container">
- 
+    
+    {{-- Main picture --}}
+    <div class="row">
+         <div class="col-md-12">
+             <img src="{{ asset('/images/main_pic.jpg') }}" class="img-fluid mx-auto d-block" alt="Medical congress">
+         </div>
+    </div>
+    
+    <br>
+    
+    {{-- Public messages rendering --}}
     @if(!empty($publics) && $publics->count())
         @if(Auth::guest())
             <div class="card-deck">
+                
+                {{-- Counter for card structure --}}
                 @php 
                 
                     $counter = 0; 
@@ -51,18 +63,20 @@
                 @endforeach
                         </div>
         @endif
-
     @endif
         
-
+    {{-- Public messages pagination --}}
     @if(Auth::guest())
         <br>
         {!! $publics->links() !!}
     @endif  
     
+    {{-- Public and private messages rendering --}}
     @if(!empty($privates) && $privates->count())
         @if(!Auth::guest() && !Auth::user()->isBlocked())
             <div class="card-deck">
+                
+                {{-- Counter for card structure --}}
                 @php 
                 
                     $counter_private = 0; 
@@ -110,9 +124,10 @@
 
     @endif
     
+    {{-- Private messages pagination --}}
     @if(!Auth::guest() && !Auth::user()->isBlocked())
         <br>
-        {!! $publics->links() !!}
+        {!! $privates->links() !!}
     @endif  
     
 </div>

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
+{{-- Received: $event --}}
 <div class="container">
      <div class="row">
         <div class="col-md-12">       
@@ -8,6 +9,8 @@
                     <div class="card">
                         <h4 class="list-group-item list-group-item bg-primary"><a class="text-white" href={{"/events/".$event->id}}>{{$event->name}}</a></h4>
                         <div class="card-body">
+                            
+                            {{-- If event has commercial exhibition --}}
                             <div class="float-right">
                                 @if($event->eventTypes->id == 2 || $event->eventTypes->id == 3)
                                     {{ Form::open(['action' => ['App\Http\Controllers\MaterialController@show', $event->id]]) }}
@@ -28,6 +31,7 @@
                     <br>
                 @endforeach
                 
+                {{-- Pagination --}}
                 {!!$events->links()!!}
         </div>
      </div>

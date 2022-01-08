@@ -19,10 +19,14 @@
 <script type="application/javascript">
     var title = <?php echo json_encode(trans('admin_messages.tax_prism_vat'))?>;
 
+    //Chart data
+    var L  = <?php echo $base_point?>;
+    var n = <?php echo $height_point?>;
+
     var data = [{
-        x: [0, 5, 5, 0, 0, 5, 5, 0],
-        y: [0, 0, 5, 5, 0, 0, 5, 5],
-        z: [0, 0, 0, 0, 5, 5, 5, 5],
+        x: [0, L, L, 0, 0, L, L, 0],
+        y: [0, 0, L, L, L, L, 0, 0],
+        z: [0, 0, 0, 0, n, n, n, n],
         mode: 'markers',
         type: 'scatter3d',
         marker: {
@@ -30,36 +34,15 @@
           size: 2
         }
     },{
-        alphahull: 7,
+        alphahull: -1,
         opacity: 0.35,
         type: 'mesh3d',
-        x: [0, 0, 5, 5, 0, 0, 5, 5],
-        y: [0, 5, 5, 0, 0, 5, 5, 0],
-        z: [0, 0, 0, 0, 5, 5, 5, 5],
-        i: [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
-        j: [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
-        k: [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
-    },
-    {
-        x: [0, 7, 7, 0, 0, 7, 7, 0],
-        y: [0, 0, 7, 7, 0, 0, 7, 7],
-        z: [0, 0, 0, 0, 7, 7, 7, 7],
-        mode: 'markers',
-        type: 'scatter3d',
-        marker: {
-          color: 'rgb(255, 0, 0)',
-          size: 4
-        }
-    },{
-        alphahull: 7,
-        opacity: 0.35,
-        type: 'mesh3d',
-        x: [0, 7, 7, 0, 0, 7, 7, 0],
-        y: [0, 0, 7, 7, 0, 0, 7, 7],
-        z: [0, 0, 0, 0, 7, 7, 7, 7],
-        i: [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
-        j: [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
-        k: [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+        x: [0, L, L, 0, 0, L, L, 0],
+        y: [0, 0, L, L, L, L, 0, 0],
+        z: [0, 0, 0, 0, n, n, n, n],
+        i: [7, 3, 0, 2, 2, 2, 5, 5, 5, 1, 6, 7],
+        j: [3, 4, 1, 3, 3, 4, 7, 7, 6, 2, 7, 1],
+        k: [0, 7, 2, 0, 4, 5, 6, 4, 1, 5, 1, 0],
     }];
 
     var layout = {

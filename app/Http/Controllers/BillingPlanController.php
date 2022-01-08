@@ -9,14 +9,18 @@ use function view;
 
 class BillingPlanController  extends Controller
 {
+    /**
+     * Middleware, setting access control for specified function.
+     *
+     */
     public function __construct() {
         $this->middleware('admin');
     }
     
     /**
-     * Display a listing of the resource.
+     * Display of all billing plans for admin.
      *
-     * @return \Illuminate\Http\Response
+     * @return corresponing view.
      */
     public function index()
     {
@@ -26,9 +30,9 @@ class BillingPlanController  extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the form for creating a new billing plan.
      *
-     * @return \Illuminate\Http\Response
+     * @return corresponing view.
      */
     public function create()
     {
@@ -36,15 +40,15 @@ class BillingPlanController  extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created billing plan in the DB.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  $request from the form.
+     * @return action BillingPlanController@index
      */
     public function store(Request $request)
     {
         $rules = array(
-            'billing_plan_name' => 'required',
+            'billing_plan_name' => 'required|max:255',
             'cost_per_article' => 'required|numeric',
             'cost_per_participation' => 'required|numeric',
             'cost_per_material' => 'required|numeric',
@@ -64,14 +68,16 @@ class BillingPlanController  extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified billing plan.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id - corresponds to the database billing plan ID.
+     * @return corresponing view.
      */
     public function edit($id)
     {
         $billing_plan = BillingPlan::where('id', $id)->first();
+        
+        /*If billing plan is not found - abort*/
         if($billing_plan == NULL)
         {
             abort(404);
@@ -82,16 +88,15 @@ class BillingPlanController  extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Update the specified billing plan in DB.
+     * 
+     * @param  $request from the form.
+     * @return action BillingPlanController@index
      */
     public function update(Request $request)
     {
         $rules = array(
-            'billing_plan_name' => 'required',
+            'billing_plan_name' => 'required|max:255',
             'cost_per_article' => 'required|numeric',
             'cost_per_participation' => 'required|numeric',
             'cost_per_material' => 'required|numeric',
@@ -99,6 +104,7 @@ class BillingPlanController  extends Controller
        
         $this->validate($request, $rules);
         
+        /* Updating all fields */
         $billing_plan = BillingPlan::where('id', $request->billing_plan_id)->first();
         $billing_plan->name = $request->billing_plan_name;
         $billing_plan->cost_per_article = $request->cost_per_article;
@@ -110,19 +116,21 @@ class BillingPlanController  extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deleting the specified billing plan from DB, if it is not attached to any event.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id - corresponds to the database billing plan ID.
+     * @return redirect back
      */
     public function destroy($id)
     {
+        /* If there are no events with this billing plan - delete it */
         if(!Event::where('billing_plan_id', $id)->exists())
         {
             BillingPlan::where('id', $id)->delete();
             return \Redirect::back();
         }
         
+        /* Else return error */
         return \Redirect::back()->withErrors(['msg' => 'Billing plan cannot be deleted, unless it is detached from the events']);
     }
 }

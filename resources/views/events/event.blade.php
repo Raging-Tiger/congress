@@ -1,7 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
 
+{{-- Received: $event, $billing_plans --}}
 <div class="container">
      <div class="row">
         <div class="col-md-12">       
@@ -10,8 +10,11 @@
                         <div class="card-body">
                            
                             <div class="float-right">
-                                @if($event->registration_until >= Carbon\Carbon::now() && !Auth::user()->isRegistred($id))
                                 
+                                {{-- If event registration is not ended and participant is not already registred for it - allow registration.
+                                     If event registration is not ended and already registrated - show corresponding message.
+                                     If event registration ended - show corresponding message. --}}
+                                @if($event->registration_until >= Carbon\Carbon::now() && !Auth::user()->isRegistred($id))
                                     {{ Form::open(['action' => ['App\Http\Controllers\EventController@register', $event->id]]) }}
                                         {{ Form::submit(__('user_messages.register_on_event'), ['class' => 'btn btn-primary']) }}
                                     {{ Form::close() }}

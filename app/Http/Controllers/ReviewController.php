@@ -75,6 +75,11 @@ class ReviewController extends Controller
 
     public function uploadReview(Request $request)
     {
+        $rules = array(
+            'review' => 'required',
+        );        
+        $this->validate($request, $rules); 
+        
         $article = Article::where('id', '=', $request->article_id)->first();
         if($article == NULL)
         {

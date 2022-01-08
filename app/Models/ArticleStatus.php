@@ -13,6 +13,8 @@ class ArticleStatus extends Model
     
     public $timestamps = false;
     
+    /* Eloquent relations definition */
+    
     public function articles(){
         return $this->hasMany(Article::class);
     }

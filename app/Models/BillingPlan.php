@@ -17,6 +17,9 @@ class BillingPlan extends Model
         'cost_per_material',
 
     ];
+    
+    /* Eloquent relations definition */
+    
     public function events(){
         return $this->hasMany(Event::class);
     }

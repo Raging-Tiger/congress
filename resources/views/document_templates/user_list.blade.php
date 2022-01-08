@@ -9,6 +9,8 @@ table, th, td {
   border-collapse: collapse;
 }
 </style>
+
+{{-- Received: $event, $participants --}}
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -36,6 +38,7 @@ table, th, td {
                         Bill status
                     </th>
                 </tr>
+                {{-- User number counter --}}
                 @php $user_index = 1; @endphp
                 @foreach($participants as $participant)
                 <tr>

@@ -29,12 +29,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(Charts $charts)
     {
+        /* Correct handling of DB names */
         Schema::defaultStringLength(191);
+        
+        /* Correct handling of paginations */
         Paginator::useBootstrap();
+        
+        /* Set current events for dropdown menu in main page */
         if(Schema::hasTable('events'))
         {
            $current_events = Event::whereDate('end_date', '>=', Carbon::now())->get();
-            View::share('current_events', $current_events); 
+           View::share('current_events', $current_events); 
         }
     }
 }

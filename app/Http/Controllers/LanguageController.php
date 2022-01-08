@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 class LanguageController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Handle localization.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  $locale - language locale.
+     * @return redirect back/
      */
     public function __invoke($locale)
     {

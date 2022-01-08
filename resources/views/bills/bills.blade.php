@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+
+{{-- Received: $bills --}}
 <div class="container">
     @if ($errors->has('bill'))
         <div class="alert alert-danger">
@@ -24,6 +26,7 @@
             <th>{{__('user_messages.upload_payment')}}</th>
         </tr>
     @foreach($bills as $bill)
+        {{-- According to coloring scheme - Paid - Green, Underpaid - Gray, Sent - Yellow, Overdue - Red --}}
         @if($bill->billStatuses->id == 2)
             <tr class="table-success">
         @elseif($bill->billStatuses->id == 1)
@@ -34,20 +37,27 @@
             <tr class="table-danger">
         @endif
             <td>{{$bill->id}}</td>
+            
+            {{-- Cost for private participant --}}
             @if(Auth::user()->isPrivate())
                 
+               {{-- If exists - displayed --}}
                 @if($bill->total_cost_per_participation)
                     <td>{{$bill->total_cost_per_participation}} EUR</td>
                 @else
                     <td>-</td>
                 @endif
                 
+                {{-- If exists - displayed --}}
                 @if($bill->total_cost_per_articles)
                     <td>{{$bill->total_cost_per_articles}} EUR</td>
                 @else
                     <td>-</td>
                 @endif
+                {{-- Total sum of all positions --}}
                 <td>{{$bill->total_cost_per_articles + $bill->total_cost_per_participation}} EUR</td>
+            
+            {{-- Cost for commercial participant --}}
             @elseif(Auth::user()->isCommercial())
                 <td>{{$bill->total_cost_per_materials}} EUR</td>
                 <td>{{$bill->total_cost_per_materials}} EUR</td>
@@ -56,6 +66,7 @@
             <td>{{$bill->events->name}}</td>
             <td>{{$bill->billStatuses->name}}</td>
             
+            {{-- Download corresponding invoice --}}
             <td>
                 {{ Form::open(['action' => ['App\Http\Controllers\BillController@downloadInvoice']]) }}
                    {{ Form::hidden('bill_id', $bill->id)}}
@@ -63,6 +74,7 @@
                {{ Form::close() }} 
             </td>
             
+            {{-- If bill is not paid, allows to upload payment confirmation --}}
             <td>
                 @if ($bill->billStatuses->id != 2)
                  {{   Form::open(array('url' => '/upload_confirmation','files'=>'true')) }}
@@ -73,10 +85,11 @@
                 @endif
                 
             </td>
-           
         </tr>
     @endforeach
     </table>
+    {{-- Pagination --}}
+    {!!$bills->links()!!}
 </div>
 
 @endsection

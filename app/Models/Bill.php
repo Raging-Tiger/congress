@@ -17,6 +17,7 @@ class Bill extends Model
         'event_id',
         'bill_status_id',
     ];
+    /* Eloquent relations definition */
     
     public function billStatuses(){
         return $this->belongsTo(BillStatus::class, 'bill_status_id');

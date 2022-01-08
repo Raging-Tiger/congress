@@ -1,11 +1,16 @@
 @extends('layouts.app_statistics')
 @section('content')
 <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    {{-- Received: $events, $event_id, $participation_profit, $article_profit, $material_profit, $VAT --}}
+    {{-- Pass: event --}}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
+                        
+                            {{-- Select event - drop-down list --}}
                             <div class="form-group">
                                 {{ Form::open(['action' => ['App\Http\Controllers\StatisticController@profitShareGeneralChart']]) }}
                                      {{ Form::label('event', __('admin_messages.select_event'), ['class' => 'control-label']) }}
@@ -20,12 +25,20 @@
                             </div>
                         
                     </div>
+                    
                     <div class="card-header">{{__('admin_messages.potent_profit_share')}}</div>
+                    
                     <div class="card-body">
+                        
+                        {{-- Chart container --}}
                         <div id="pie_chart_container"></div>
                     </div>
+                    
                     <div class="card-header">{{__('admin_messages.potent_profit')}}</div>
+                    
                     <div class="card-body">
+                        
+                        {{-- Chart container --}}
                         <div id="bar_chart_container"></div>
                     </div>
                 </div>
@@ -33,15 +46,19 @@
         </div>
     </div>
 <script type="application/javascript">
+    
+    //Localization of the chart name/axes
     var title_pie = <?php echo json_encode(trans('admin_messages.profit_share'))?>;
     var title_bar = <?php echo json_encode(trans('admin_messages.potent_profit'))?>;
     var xAxis_bar = <?php echo json_encode(trans('admin_messages.source_of_income'))?>;
     
+    //Chart data
     var participation_profit  = <?php echo $participation_profit?>;
     var article_profit = <?php echo $article_profit?>;
     var material_profit = <?php echo $material_profit?>;
     var VAT = <?php echo $VAT?>;
 
+    //Render chart
     Highcharts.chart('pie_chart_container', {
         chart: {
             plotBackgroundColor: null,
@@ -90,6 +107,7 @@
         }]
     });
 
+    //Render chart
     Highcharts.chart('bar_chart_container', {
 
       chart: {

@@ -10,14 +10,17 @@ use Redirect;
 use Session;
 class NotificationController extends Controller
 {
+    /**
+     * Middleware, setting access control for specified function.
+     */
     public function __construct() {
     
         $this->middleware('admin');
     } 
     /**
-     * Display a listing of the resource.
+     * Display a listing of all notifications.
      *
-     * @return \Illuminate\Http\Response
+     * @return corresponing view.
      */
     public function index()
     {
@@ -26,9 +29,9 @@ class NotificationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new notification.
      *
-     * @return \Illuminate\Http\Response
+     * @return corresponing view.
      */
     public function create()
     {
@@ -42,10 +45,10 @@ class NotificationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created notification in DB.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  $request from the form.
+     * @return action NotificationController@index.
      */
     public function store(Request $request)
     {
@@ -72,33 +75,22 @@ class NotificationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified notification.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id - corresponds to the notification event ID.
+     * @return corresponing view.
      */
     public function edit($id)
     {
         $notification = Notification::where('id', $id)->first();
+        
+        /* If notification not exists - abort */
         if($notification == NULL)
         {
             abort(404);
         }
             
         $notification_types = NotificationType::all();
-        
-        
         
         $notification_types_list = $notification_types->pluck('name', 'id');
         
@@ -112,11 +104,10 @@ class NotificationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified notification in DB.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  $request from the form.
+     * @return action NotificationController@index.
      */
     public function update(Request $request)
     {
@@ -137,10 +128,10 @@ class NotificationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified notification from DB.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  $request from the form.
+     * @return redirect back.
      */
     public function destroy(Request $request)
     {

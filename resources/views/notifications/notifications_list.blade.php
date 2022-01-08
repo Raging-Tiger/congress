@@ -1,10 +1,13 @@
 @extends('layouts.app')
-
 @section('content')
 
+{{-- Received: $notifications --}}
+{{-- Pass: notification_id --}}
 <div class="container">
      <div class="row">
         <div class="col-md-12">
+            
+            {{-- Create new notification --}}
             <div>
                 {{ Form::open(['action' => 'App\Http\Controllers\NotificationController@create']) }}  
                  {{ Form::submit(__('admin_messages.create_notification'), ['class' => 'btn btn-primary']) }}
@@ -17,6 +20,7 @@
                             <h4 class="list-group-item list-group-item bg-primary text-white">{{$notification->header}}</h4>
                             <div class="card-body">
 
+                                {{-- Delete notification --}}
                                 <div class="float-right">
                                 {{ Form::open(['action' => 'App\Http\Controllers\NotificationController@destroy', 'onsubmit' => 'return ConfirmDelete()']) }}  
                                 {{ Form::hidden('notification_id', $notification->id) }}
@@ -24,6 +28,7 @@
                                 {{ Form::close() }}
                                 </div>
                                 
+                                {{-- Edit notification --}}
                                 <div class="float-right">
                                 {{ Form::open(['action' => ['App\Http\Controllers\NotificationController@edit', $notification->id]]) }}  
                                 {{ Form::hidden('notification_id', $notification->id) }}
@@ -47,11 +52,13 @@
                 
                 @endforeach
                 
+                {{-- Pagination --}}
                 {!!$notifications->links()!!}
         </div>
      </div>
 </div>
 <script type="application/javascript"> 
+// Confirm deletion
 var message = <?php echo json_encode(trans('admin_messages.delete_notification_warning'))?>;
 function ConfirmDelete() {
     var confirmation = confirm(message);

@@ -20,7 +20,8 @@ class Article extends Model
         'article_status_id',
     ];
     					
-
+    /* Eloquent relations definition */
+    
     public function articleStatuses(){
         return $this->belongsTo(ArticleStatus::class, 'article_status_id');
     }

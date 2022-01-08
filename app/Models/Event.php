@@ -20,6 +20,8 @@ class Event extends Model
         'billing_plan_id',
     ];
     
+    /* Eloquent relations definition */
+    
     public function eventTypes(){
         return $this->belongsTo(EventType::class, 'event_type_id');
     }
@@ -45,19 +47,21 @@ class Event extends Model
         return $this->hasMany(Article::class, 'event_id');
     }
     
-    
+    /* Article for the specified event and this user */
     public function article_curr($id){
         return (Article::where('event_id', '=', $this->id)
                 ->where('user_id', '=', $id)->first());
 
     }
     
+    /* Check if user is registed for specified event */
     public function isRegistred($id){
         return (UserEvent::where('event_id', '=', $this->id)
                 ->where('user_id', '=', $id)->exists());
 
     }
     
+    /* Material for the specified event and this user */
     public function material_curr($id){
         
         return (Material::where('event_id', '=', $this->id)
