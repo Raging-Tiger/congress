@@ -48,7 +48,7 @@
                             <label for="PersonName" class="col-md-4 col-form-label text-md-right">{{ __('First name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name1" type="text" class="form-control @error('name') is-invalid @enderror" name="PersonName" value="{{ old('PersonName') }}">
+                                <input id="name1" type="text" class="form-control @error('name') is-invalid @enderror" name="PersonName" maxlength="255" value="{{ old('PersonName') }}">
 
                                 @error('PersonName')
                                     <span class="invalid-feedback" role="alert">
@@ -61,7 +61,7 @@
                         <div class="form-group row desc" id="Type2" style="display: none;">
                             <label for="PersonSurname" class="col-md-4 col-form-label text-md-right">{{ __('Second name') }}</label>
                             <div class="col-md-6">
-                                <input id="name2" type="text" class="form-control @error('name') is-invalid @enderror" name="PersonSurname" value="{{ old('PersonSurname') }}">
+                                <input id="name2" type="text" class="form-control @error('name') is-invalid @enderror" name="PersonSurname" maxlength="255" value="{{ old('PersonSurname') }}">
 
                                 @error('PersonSurname')
                                     <span class="invalid-feedback" role="alert">
@@ -74,7 +74,7 @@
                         <div class="form-group row desc" id="Type3" style="display: none;">
                             <label for="Title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
                             <div class="col-md-6">
-                                <input id="name3" type="text" class="form-control @error('name') is-invalid @enderror" name="Title" value="{{ old('Title') }}">
+                                <input id="name3" type="text" class="form-control @error('name') is-invalid @enderror" name="Title" maxlength="255" value="{{ old('Title') }}">
 
                                 @error('Title')
                                     <span class="invalid-feedback" role="alert">
@@ -89,7 +89,7 @@
                             <label for="CompanyName" class="col-md-4 col-form-label text-md-right">{{ __('Company name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name4" type="text" class="form-control @error('name') is-invalid @enderror" name="CompanyName" value="{{ old('CompanyName') }}">
+                                <input id="name4" type="text" class="form-control @error('name') is-invalid @enderror" name="CompanyName" maxlength="255" value="{{ old('CompanyName') }}">
 
                                 @error('CompanyName')
                                     <span class="invalid-feedback" role="alert">
@@ -103,7 +103,7 @@
                             <label for="CompanyCountry" class="col-md-4 col-form-label text-md-right">{{ __('Company country') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name5" type="text" class="form-control @error('name') is-invalid @enderror" name="CompanyCountry" value="{{ old('CompanyCountry') }}">
+                                <input id="name5" type="text" class="form-control @error('name') is-invalid @enderror" name="CompanyCountry" maxlength="255" value="{{ old('CompanyCountry') }}">
 
                                 @error('CompanyCountry')
                                     <span class="invalid-feedback" role="alert">
@@ -170,7 +170,7 @@
         var test = $(this).val();
 
         $("div.desc").hide();
-        
+                
         if(test === "1")
         {
            $("#Type" + "1").show();
@@ -180,6 +180,8 @@
            $("#name" + "2").prop('required',true);
            $("#name" + "4").prop('required',false);
            $("#name" + "5").prop('required',false);
+           
+           
         }
         else
         {

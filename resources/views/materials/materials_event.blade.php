@@ -16,6 +16,16 @@
 .carousel .carousel-indicators .active {
   background-color: #444;
 }
+.carousel-indicators {
+  bottom:-15px;
+}
+.carousel-inner {
+   margin-bottom:50px;
+   padding-bottom:95px; 
+}
+.carousel-caption{
+    bottom:-95px;
+}
 </style>
 
 {{-- Received: $materials --}}
